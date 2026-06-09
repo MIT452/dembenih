@@ -8,6 +8,7 @@ import {
 import { motion, AnimatePresence } from 'framer-motion';
 import { useNavigate, useLocation, Link } from 'react-router-dom';
 import { AuthContext } from '../context/AuthContext';
+import ImageUpload from './ImageUpload';
 
 const Login = () => {
   const navigate = useNavigate();
@@ -468,20 +469,11 @@ const Login = () => {
                         </div>
                       </div>
 
-                      <div className="auth-input-group" style={{ marginTop: '12px' }}>
-                        <label className="auth-input-label">Lien photo de profil (optionnel)</label>
-                        <div className="auth-field-wrapper">
-                          <Image className="field-icon-active" size={18} />
-                          <input 
-                            type="text" 
-                            name="profileImage"
-                            className="auth-styled-input"
-                            value={registerData.profileImage}
-                            onChange={onRegisterChange}
-                            placeholder="https://images.unsplash.com/photo-xxx"
-                          />
-                        </div>
-                      </div>
+                      <ImageUpload 
+                        label="Photo de profil"
+                        currentImage={registerData.profileImage}
+                        onUploadSuccess={(url) => setRegisterData({ ...registerData, profileImage: url })}
+                      />
 
                       <button 
                         type="submit" 

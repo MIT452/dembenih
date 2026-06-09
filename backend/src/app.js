@@ -18,8 +18,8 @@ if (process.env.NODE_ENV === 'development') {
 // Routes
 app.use('/api', routes);
 
-// Static files (optional, for builds etc)
-// app.use(express.static(path.join(__dirname, '../public')));
+// Static files (for uploads)
+app.use('/uploads', express.static(path.join(process.cwd(), 'uploads')));
 
 // Global Error Handler
 app.use((err, req, res, next) => {

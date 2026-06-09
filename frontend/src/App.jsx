@@ -12,6 +12,7 @@ import Contact from './components/Contact';
 import SubPage from './components/SubPage';
 import NewsPage from './components/NewsPage';
 import SantePage from './components/SantePage';
+import CulturePage from './components/CulturePage';
 import { FileText, Hammer, Briefcase, Globe, Heart, Shield } from 'lucide-react';
 
 function App() {
@@ -54,7 +55,7 @@ function App() {
             <Route path="/projet"    element={<SubPage title="Grands Projets" subtitle="Découvrez les chantiers qui façonnent le Dembéni de demain." items={projetsData} />} />
             <Route path="/services"  element={<SubPage title="Services Publics" subtitle="Une administration proche de vous, à votre écoute au quotidien." items={servicesData} />} />
             <Route path="/actualites" element={<NewsPage />} />
-            <Route path="/culture"    element={<SubPage title="Culture & Patrimoine" subtitle="Découvrez la richesse culturelle et historique de Dembéni." />} />
+            <Route path="/culture"    element={<CulturePage />} />
             <Route path="/solidarite" element={<SantePage />} />
             <Route path="/sante"      element={<SantePage />} />
           </Routes>

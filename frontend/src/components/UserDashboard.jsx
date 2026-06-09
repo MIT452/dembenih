@@ -10,6 +10,7 @@ import {
 } from 'lucide-react';
 import { useNavigate, useSearchParams } from 'react-router-dom';
 import { AuthContext } from '../context/AuthContext';
+import ImageUpload from './ImageUpload';
 
 const UserDashboard = () => {
   const { user, logout } = useContext(AuthContext);
@@ -23,6 +24,7 @@ const UserDashboard = () => {
   // Lists Data
   const [demandes, setDemandes] = useState([]);
   const [notifications, setNotifications] = useState([]);
+  const [messages, setMessages] = useState([]);
   const [loading, setLoading] = useState(false);
   const [skeletonLoading, setSkeletonLoading] = useState(false);
 
@@ -34,7 +36,7 @@ const UserDashboard = () => {
   const [modalOpen, setModalOpen] = useState(null); // 'new_demande' | 'contact_mairie' | 'take_rdv' | 'report_issue' | 'doc_preview'
   const [selectedDoc, setSelectedDoc] = useState(null);
   const [newDemande, setNewDemande] = useState({ title: '', description: '', type: 'Acte de naissance' });
-  const [contactForm, setContactForm] = useState({ subject: '', message: '' });
+  const [contactForm, setContactForm] = useState({ subject: '', message: '', image: '' });
   const [rdvForm, setRdvForm] = useState({ service: 'État Civil', date: '', time: '' });
   const [issueForm, setIssueForm] = useState({ category: 'Voirie', description: '', location: '' });
 
@@ -83,6 +85,9 @@ const UserDashboard = () => {
 
       const resNotifs = await axios.get('http://localhost:4000/api/demandes/notifications', { headers });
       setNotifications(resNotifs.data.data);
+
+      const resMessages = await axios.get('http://localhost:4000/api/contact/my', { headers });
+      setMessages(resMessages.data.data);
     } catch (err) {
       console.error('Erreur lors du chargement des données', err);
     } finally {
@@ -200,6 +205,7 @@ const UserDashboard = () => {
             { id: 'dashboard', name: 'Tableau de bord', icon: <BarChart size={18} /> },
             { id: 'demarches', name: 'Mes démarches', icon: <FileText size={18} /> },
             { id: 'documents', name: 'Mes documents', icon: <FileCheck size={18} /> },
+            { id: 'messages', name: 'Mes messages', icon: <MessageSquare size={18} />, badge: messages.length },
             { id: 'sante', name: 'Santé publique', icon: <Activity size={18} /> },
             { id: 'solidarite', name: 'CCAS & Solidarité', icon: <Shield size={18} /> },
             { id: 'notifications', name: 'Notifications', icon: <Bell size={18} />, badge: unreadNotifications },
@@ -544,6 +550,50 @@ const UserDashboard = () => {
                 </div>
               )}
 
+              {/* TAB G: MES MESSAGES (CONTACT) */}
+              {activeTab === 'messages' && (
+                <div className="notifications-full-page-wrap">
+                  <div className="tab-section-header">
+                    <div>
+                      <h2 className="tab-section-title">Vos messages au secrétariat</h2>
+                      <p className="tab-section-desc">Retrouvez ici les messages que vous avez envoyés via le formulaire de contact et leur état de traitement.</p>
+                    </div>
+                  </div>
+
+                  <div className="notifications-vertical-stack">
+                    {messages.length === 0 ? (
+                      <div className="empty-state-card">
+                        <MessageSquare size={48} className="empty-icon" />
+                        <h4>Vous n'avez envoyé aucun message au secrétariat</h4>
+                      </div>
+                    ) : (
+                      messages.map(m => (
+                        <div key={m._id} className="notification-full-row read" style={{ borderLeftColor: m.status === 'replied' ? '#10b981' : '#3b82f6' }}>
+                          <div className="notif-marker-dot" style={{ backgroundColor: m.status === 'replied' ? '#10b981' : '#3b82f6' }} />
+                          <div className="notif-row-content">
+                            <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+                              <span style={{ fontSize: '0.75rem', fontWeight: 800, color: '#64748b', textTransform: 'uppercase' }}>Service : {m.service}</span>
+                              <span style={{ fontSize: '0.7rem', fontWeight: 800, background: m.status === 'replied' ? '#dcfce7' : '#eff6ff', color: m.status === 'replied' ? '#10b981' : '#3b82f6', padding: '2px 8px', borderRadius: '4px' }}>
+                                {m.status === 'replied' ? 'Répondu' : 'En attente'}
+                              </span>
+                            </div>
+                            <p className="notif-row-message" style={{ marginTop: '8px', fontStyle: 'italic' }}>"{m.message}"</p>
+                            
+                            {m.image && (
+                              <div style={{ marginTop: '10px' }}>
+                                <img src={m.image} alt="Pièce jointe" style={{ maxWidth: '200px', borderRadius: '8px', border: '1px solid #e2e8f0' }} />
+                              </div>
+                            )}
+                            
+                            <span className="notif-row-time">🕒 Envoyé le {new Date(m.createdAt).toLocaleString('fr-FR')}</span>
+                          </div>
+                        </div>
+                      ))
+                    )}
+                  </div>
+                </div>
+              )}
+
               {/* TAB D: SANTE & SOLIDARITE CCAS */}
               {(activeTab === 'sante' || activeTab === 'solidarite') && (
                 <div className="iframe-simulation-wrapper">
@@ -729,6 +779,12 @@ const UserDashboard = () => {
                       style={{ padding: '12px', resize: 'vertical' }}
                     />
                   </div>
+
+                  <ImageUpload 
+                    label="Pièce jointe / Photo"
+                    currentImage={contactForm.image}
+                    onUploadSuccess={(url) => setContactForm({ ...contactForm, image: url })}
+                  />
                 </div>
 
                 <div className="sante-modal-footer">
@@ -836,7 +892,28 @@ const UserDashboard = () => {
                 </div>
               </div>
 
-              <form onSubmit={e => { e.preventDefault(); addToast('Votre message a bien été envoyé. Un agent vous répondra sous 24h.', 'success'); setModalOpen(null); }}>
+              <form onSubmit={async (e) => { 
+                e.preventDefault(); 
+                setLoading(true);
+                try {
+                  await axios.post('http://localhost:4000/api/contact', {
+                    name: `${user.firstname} ${user.lastname}`,
+                    email: user.email,
+                    phone: user.phone,
+                    service: contactForm.subject, // Using subject as service or similar
+                    message: contactForm.message,
+                    image: contactForm.image
+                  });
+                  addToast('Votre message a bien été envoyé. Un agent vous répondra sous 24h.', 'success'); 
+                  setContactForm({ subject: '', message: '', image: '' });
+                  setModalOpen(null); 
+                  fetchData();
+                } catch (err) {
+                  addToast('Erreur lors de l\'envoi du message.', 'error');
+                } finally {
+                  setLoading(false);
+                }
+              }}>
                 <div className="modal-body-scroll">
                   <div className="auth-input-group">
                     <label className="auth-input-label">Sujet du message</label>

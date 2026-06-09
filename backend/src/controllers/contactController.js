@@ -1,4 +1,6 @@
 const nodemailer = require('nodemailer');
+const Contact = require('../models/Contact');
+const asyncHandler = require('express-async-handler');
 
 /**
  * Handles transactional email delivery from the Contact Form
@@ -6,13 +8,23 @@ const nodemailer = require('nodemailer');
  */
 exports.sendContactEmail = async (req, res, next) => {
     try {
-        const { name, email, phone, service, message } = req.body;
+        const { name, email, phone, service, message, image } = req.body;
 
         // Validation checks
         if (!name || !email || !message) {
             res.status(400);
             throw new Error("Veuillez remplir les champs obligatoires (nom, email, message).");
         }
+
+        // Sauvegarder le message en base de données pour l'admin
+        await Contact.create({
+            name,
+            email,
+            phone,
+            service,
+            message,
+            image
+        });
 
         const dateString = new Date().toLocaleString('fr-FR', { timeZone: 'Indian/Mayotte' });
 
@@ -105,27 +117,23 @@ exports.sendContactEmail = async (req, res, next) => {
             <body>
                 <div class="email-card">
                     <div class="email-header">
-                        <h2>ACCUSÉ DE RÉCEPTION</h2>
-                        <p>Votre message a été transmis à la Mairie de Dembéni</p>
+                        <h2>CONFIRMATION DE RÉCEPTION</h2>
+                        <p>Mairie de Dembéni</p>
                     </div>
                     <div class="email-body">
                         <div class="greeting">Bonjour ${name},</div>
-                        <p class="reply-text">
-                            Nous vous remercions d'avoir contacté la mairie de Dembéni. Nous vous confirmons que votre message a bien été transmis au service <strong>${service || 'Secrétariat Général'}</strong> pour traitement.
-                        </p>
+                        <div class="reply-text">
+                            Nous vous confirmons avoir bien reçu votre message adressé au service <strong>${service || 'Général'}</strong>. 
+                            Votre demande a été enregistrée dans notre système de gestion citoyenne et sera traitée dans les plus brefs délais par nos agents communaux.
+                        </div>
                         <div class="info-box-confirm">
                             <div class="info-box-text">
                                 ⏳ <strong>Délai de traitement moyen :</strong> Les agents municipaux s'efforcent de vous répondre sous un délai maximal de <strong>48 heures ouvrées</strong>.
                             </div>
                         </div>
-                        <p class="reply-text" style="margin-bottom: 0;">
-                            Cordialement,<br>
-                            <strong>Le Service de la Communication</strong><br>
-                            Mairie de Dembéni, Département de Mayotte
-                        </p>
                     </div>
                     <div class="email-footer">
-                        Ne pas répondre à cet e-mail automatique • Mairie de Dembéni, Mayotte
+                        Cordialement,<br>L'équipe administrative de Dembéni
                     </div>
                 </div>
             </body>
@@ -133,51 +141,92 @@ exports.sendContactEmail = async (req, res, next) => {
         `;
 
         if (isMockTransport) {
-            console.log("=========================================================================");
-            console.log("[MOCK EMAIL SUCCESS] - SMTP_PASS non configuré dans .env");
-            console.log(`Destinataire Mairie : ${smtpUser}`);
-            console.log(`Destinataire Citoyen : ${email}`);
-            console.log(`Sujet Mairie : [Nouveau message citoyen] - ${name}`);
-            console.log("=========================================================================");
-            
+            console.log("⚠️ Mode simulation SMTP. L'e-mail ne sera pas réellement envoyé.");
             return res.status(200).json({
                 success: true,
-                message: "Votre message a été simulé et enregistré dans les logs du serveur (Dev mode).",
-                isMock: true
+                message: "Message enregistré avec succès (Mode Simulation).",
+                mode: "mock"
             });
         }
 
-        // Configure real Nodemailer transporter
         const transporter = nodemailer.createTransport({
-            service: 'gmail',
+            host: smtpHost,
+            port: smtpPort,
+            secure: false,
             auth: {
                 user: smtpUser,
                 pass: smtpPass
             }
         });
 
-        // 1. Send message to the commune
+        // 1. Send to Admin
         await transporter.sendMail({
-            from: `"${name}" <${email}>`,
+            from: `"Portail Citoyen Dembéni" <${smtpUser}>`,
             to: smtpUser,
-            subject: `[Nouveau message citoyen] - ${name}`,
+            subject: `[CONTACT] ${service || 'Message'} de ${name}`,
             html: adminEmailHtml
         });
 
-        // 2. Send automatic acknowledgment back to the citizen
+        // 2. Send confirmation to Citizen
         await transporter.sendMail({
             from: `"Mairie de Dembéni" <${smtpUser}>`,
             to: email,
-            subject: `Accusé de réception - Votre message à la Mairie de Dembéni`,
+            subject: "Accusé de réception - Votre message à la Mairie de Dembéni",
             html: citizenReplyHtml
         });
 
         res.status(200).json({
             success: true,
-            message: "Votre message a été envoyé avec succès à l'administration de Dembéni."
+            message: "Votre message a été envoyé et enregistré avec succès."
         });
 
-    } catch (err) {
-        next(err);
+    } catch (error) {
+        next(error);
     }
 };
+
+/**
+ * @desc    Get all contact messages
+ * @route   GET /api/contact/all
+ * @access  Private (Admin)
+ */
+exports.getAllMessages = asyncHandler(async (req, res) => {
+    const messages = await Contact.find().sort({ createdAt: -1 });
+    res.status(200).json({
+        success: true,
+        count: messages.length,
+        data: messages
+    });
+});
+
+/**
+ * @desc    Delete a message
+ * @route   DELETE /api/contact/:id
+ * @access  Private (Admin)
+ */
+exports.deleteMessage = asyncHandler(async (req, res) => {
+    const message = await Contact.findById(req.params.id);
+    if (!message) {
+        res.status(404);
+        throw new Error('Message non trouvé');
+    }
+    await message.deleteOne();
+    res.status(200).json({
+        success: true,
+        message: 'Message supprimé'
+    });
+});
+
+/**
+ * @desc    Get messages for the logged-in user
+ * @route   GET /api/contact/my
+ * @access  Private
+ */
+exports.getMyMessages = asyncHandler(async (req, res) => {
+    const messages = await Contact.find({ email: req.user.email }).sort({ createdAt: -1 });
+    res.status(200).json({
+        success: true,
+        count: messages.length,
+        data: messages
+    });
+});

@@ -9,6 +9,7 @@ import {
 } from 'lucide-react';
 import { useNavigate } from 'react-router-dom';
 import { AuthContext } from '../context/AuthContext';
+import ImageUpload from './ImageUpload';
 
 const AdminDashboard = () => {
   const { user, logout } = useContext(AuthContext);
@@ -26,6 +27,7 @@ const AdminDashboard = () => {
   const [demandes, setDemandes] = useState([]);
   const [publications, setPublications] = useState([]);
   const [services, setServices] = useState([]);
+  const [messages, setMessages] = useState([]);
   
   // Mock Signalements for Interactive Mapping
   const [signalements, setSignalements] = useState([
@@ -145,6 +147,10 @@ const AdminDashboard = () => {
       // Fetch Services
       const resServices = await axios.get('http://localhost:4000/api/services');
       setServices(resServices.data.data);
+
+      // Fetch Messages (Contact)
+      const resMessages = await axios.get('http://localhost:4000/api/contact/all', { headers });
+      setMessages(resMessages.data.data);
 
       if (!silent) {
         triggerToast("CMS communal synchronisé", "success");
@@ -355,6 +361,20 @@ const AdminDashboard = () => {
     }
   };
 
+  // CONTACT MESSAGES CRUD
+  const handleDeleteMessage = async (id) => {
+    if (!window.confirm('Voulez-vous vraiment supprimer ce message ?')) return;
+    try {
+      const headers = { Authorization: `Bearer ${user.token}` };
+      await axios.delete(`http://localhost:4000/api/contact/${id}`, { headers });
+      triggerToast("Message supprimé");
+      fetchAllData(true);
+    } catch (err) {
+      console.error(err);
+      triggerToast("Erreur de suppression", "error");
+    }
+  };
+
   // DEMAND RESPONSES
   const handleRespondDemande = async (e) => {
     e.preventDefault();
@@ -477,7 +497,8 @@ const AdminDashboard = () => {
               { id: 'demandes', name: 'Gestion Démarches', icon: <FileText size={18} /> },
               { id: 'signalements', name: 'Signalements', icon: <AlertOctagon size={18} /> },
               { id: 'publications', name: 'Gestion Publications', icon: <Compass size={18} /> },
-              { id: 'services', name: 'Services publics', icon: <Activity size={18} /> }
+              { id: 'services', name: 'Services publics', icon: <Activity size={18} /> },
+              { id: 'messages', name: 'Messages', icon: <Mail size={18} />, badge: messages.filter(m => m.status === 'unread').length > 0 ? messages.filter(m => m.status === 'unread').length : null }
             ].map(tab => (
               <button
                 key={tab.id}
@@ -711,6 +732,84 @@ const AdminDashboard = () => {
                     </div>
                   </div>
 
+                </div>
+              </motion.div>
+            )}
+
+            {/* TAB 7: MESSAGES DE CONTACT */}
+            {activeTab === 'messages' && (
+              <motion.div
+                initial={{ opacity: 0, y: 15 }}
+                animate={{ opacity: 1, y: 0 }}
+                exit={{ opacity: 0 }}
+                key="messages"
+              >
+                <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '24px' }}>
+                  <div style={{ textAlign: 'left' }}>
+                    <h3 style={{ fontSize: '1.4rem', fontWeight: '900', color: isDarkMode ? 'white' : '#0f3c28', margin: 0 }}>Messages des Citoyens</h3>
+                    <p style={{ margin: '4px 0 0 0', fontSize: '0.82rem', color: '#64748b', fontWeight: 600 }}>Retrouvez ici tous les messages envoyés via le formulaire de contact.</p>
+                  </div>
+                </div>
+
+                <div style={{ display: 'flex', flexDirection: 'column', gap: '16px' }}>
+                  {messages.length === 0 ? (
+                    <div style={{ background: isDarkMode ? '#121824' : 'white', borderRadius: '24px', padding: '60px', textAlign: 'center', border: '1px solid', borderColor: isDarkMode ? '#1e293b' : '#e2e8f0' }}>
+                      <Mail size={48} style={{ color: '#cbd5e1', marginBottom: '16px' }} />
+                      <h4 style={{ margin: '0', fontSize: '1.1rem', color: '#64748b', fontWeight: '800' }}>Aucun message reçu pour le moment.</h4>
+                    </div>
+                  ) : (
+                    messages.map(msg => (
+                      <div key={msg._id} style={{ background: isDarkMode ? '#121824' : 'white', borderRadius: '20px', border: '1px solid', borderColor: isDarkMode ? '#1e293b' : '#e2e8f0', padding: '24px', textAlign: 'left' }}>
+                        <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', flexWrap: 'wrap', gap: '16px' }}>
+                          <div style={{ display: 'flex', gap: '16px', alignItems: 'center' }}>
+                            <div style={{ width: '48px', height: '48px', borderRadius: '12px', background: 'rgba(16,185,129,0.1)', color: '#10b981', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+                              <UserCheck size={24} />
+                            </div>
+                            <div>
+                              <h4 style={{ fontSize: '1.1rem', fontWeight: '850', color: isDarkMode ? 'white' : '#0f3c28', margin: 0 }}>{msg.name}</h4>
+                              <div style={{ display: 'flex', gap: '12px', marginTop: '4px', fontSize: '0.82rem', color: '#64748b', fontWeight: 600 }}>
+                                <span style={{ display: 'flex', alignItems: 'center', gap: '4px' }}><Mail size={14} /> {msg.email}</span>
+                                {msg.phone && <span style={{ display: 'flex', alignItems: 'center', gap: '4px' }}><Phone size={14} /> {msg.phone}</span>}
+                              </div>
+                            </div>
+                          </div>
+                          <div style={{ textAlign: 'right' }}>
+                            <span style={{ fontSize: '0.7rem', fontWeight: '800', background: 'rgba(59,130,246,0.1)', color: '#3b82f6', padding: '4px 10px', borderRadius: '8px', textTransform: 'uppercase' }}>
+                              {msg.service || 'Général'}
+                            </span>
+                            <div style={{ fontSize: '0.75rem', color: '#94a3b8', fontWeight: '750', marginTop: '8px' }}>
+                              📅 {new Date(msg.createdAt).toLocaleString('fr-FR')}
+                            </div>
+                          </div>
+                        </div>
+
+                        <div style={{ marginTop: '20px', background: isDarkMode ? '#1a2333' : '#f8fafc', padding: '20px', borderRadius: '12px', border: '1px solid', borderColor: isDarkMode ? '#2e3b4e' : '#e2e8f0', color: isDarkMode ? '#cbd5e1' : '#475569', fontSize: '0.92rem', lineHeight: '1.6' }}>
+                          {msg.message}
+                          
+                          {msg.image && (
+                            <div style={{ marginTop: '15px' }}>
+                              <span style={{ fontSize: '0.72rem', fontWeight: 800, color: '#64748b', display: 'block', marginBottom: '8px' }}>PIÈCE JOINTE :</span>
+                              <a href={msg.image} target="_blank" rel="noopener noreferrer">
+                                <img src={msg.image} alt="Pièce jointe" style={{ maxWidth: '300px', borderRadius: '8px', border: '1px solid #cbd5e1' }} />
+                              </a>
+                            </div>
+                          )}
+                        </div>
+
+                        <div style={{ display: 'flex', justifyContent: 'flex-end', gap: '12px', marginTop: '20px' }}>
+                          <a href={`mailto:${msg.email}`} style={{ textDecoration: 'none', padding: '8px 16px', background: '#10b981', color: 'white', borderRadius: '10px', fontWeight: '800', fontSize: '0.85rem', display: 'flex', alignItems: 'center', gap: '6px' }}>
+                            <Send size={16} /> Répondre par mail
+                          </a>
+                          <button 
+                            onClick={() => handleDeleteMessage(msg._id)}
+                            style={{ padding: '8px 16px', background: 'rgba(239, 68, 68, 0.1)', color: '#ef4444', border: '1px solid rgba(239, 68, 68, 0.15)', borderRadius: '10px', fontWeight: '800', fontSize: '0.85rem', cursor: 'pointer', display: 'flex', alignItems: 'center', gap: '6px' }}
+                          >
+                            <Trash2 size={16} /> Supprimer
+                          </button>
+                        </div>
+                      </div>
+                    ))
+                  )}
                 </div>
               </motion.div>
             )}
@@ -1289,15 +1388,11 @@ const AdminDashboard = () => {
                     </div>
                   )}
 
-                  <div className="modal-form-group">
-                    <label>URL de l'image d'illustration</label>
-                    <input type="text" placeholder="https://images.unsplash.com/..." value={publicationForm.image} onChange={e => setPublicationForm({ ...publicationForm, image: e.target.value })} style={{ width: '100%', padding: '10px', borderRadius: '8px', border: '1px solid #cbd5e1' }} />
-                    {publicationForm.image && (
-                      <div style={{ marginTop: '8px', borderRadius: '8px', overflow: 'hidden', height: '100px', width: '200px', border: '1px solid #cbd5e1' }}>
-                        <img src={publicationForm.image} alt="Preview" style={{ width: '100%', height: '100%', objectFit: 'cover' }} />
-                      </div>
-                    )}
-                  </div>
+                  <ImageUpload 
+                    label="Image d'illustration"
+                    currentImage={publicationForm.image}
+                    onUploadSuccess={(url) => setPublicationForm({ ...publicationForm, image: url })}
+                  />
 
                   <div className="modal-form-group">
                     <label>Contenu / Texte riche de la publication *</label>
@@ -1411,10 +1506,11 @@ const AdminDashboard = () => {
                     <input type="email" value={serviceForm.email} onChange={e => setServiceForm({ ...serviceForm, email: e.target.value })} />
                   </div>
                 </div>
-                <div className="modal-form-group">
-                  <label>Image d'illustration URL</label>
-                  <input type="text" value={serviceForm.img} onChange={e => setServiceForm({ ...serviceForm, img: e.target.value })} />
-                </div>
+                <ImageUpload 
+                  label="Image d'illustration"
+                  currentImage={serviceForm.img}
+                  onUploadSuccess={(url) => setServiceForm({ ...serviceForm, img: url })}
+                />
                 <div className="modal-form-group">
                   <label>Points forts (séparés par des virgules)</label>
                   <input type="text" placeholder="Ex: Gratuit, Sans rdv" value={serviceForm.benefits} onChange={e => setServiceForm({ ...serviceForm, benefits: e.target.value })} />

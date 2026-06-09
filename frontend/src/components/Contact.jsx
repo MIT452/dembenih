@@ -5,6 +5,7 @@ import {
   MapPin, Phone, Mail, Clock, Send, Loader2, CheckCircle2, AlertCircle, 
   HelpCircle, ChevronDown, ShieldAlert, ArrowRight, Compass, ExternalLink, Activity
 } from 'lucide-react';
+import ImageUpload from './ImageUpload';
 import './Contact.css';
 
 const INFO_CARDS = [
@@ -55,7 +56,7 @@ const FAQ_ITEMS = [
 
 const Contact = () => {
   const [formData, setFormData] = useState({
-    name: '', email: '', phone: '', service: 'Secrétariat Général', message: ''
+    name: '', email: '', phone: '', service: 'Secrétariat Général', message: '', image: ''
   });
   
   // Status states
@@ -86,7 +87,7 @@ const Contact = () => {
         type: "success" 
       });
       // Clear form
-      setFormData({ name: '', email: '', phone: '', service: 'Secrétariat Général', message: '' });
+      setFormData({ name: '', email: '', phone: '', service: 'Secrétariat Général', message: '', image: '' });
     } catch (err) {
       console.error(err);
       setStatus({ 
@@ -226,6 +227,14 @@ const Contact = () => {
                 value={formData.message} 
                 onChange={handleChange} 
                 required
+              />
+            </div>
+
+            <div className="form-group-capsule span-2-cols">
+              <ImageUpload 
+                label="Pièce jointe / Photo (optionnel)"
+                currentImage={formData.image}
+                onUploadSuccess={(url) => setFormData({ ...formData, image: url })}
               />
             </div>
 
