@@ -6,8 +6,27 @@ const routes = require('./routes');
 
 const app = express();
 
-// Middleware
-app.use(cors());
+// CORS configuration: allow frontend production domain and local dev
+const allowedOrigins = [
+    'https://devfiderana-commits.github.io',
+    'https://devfiderana-commits.github.io/dembeni2',
+    'http://localhost:5173',
+    'http://localhost:3000',
+    'http://127.0.0.1:5173',
+    'http://127.0.0.1:3000'
+];
+
+app.use(cors({
+    origin: (origin, callback) => {
+        // allow requests with no origin (like mobile apps, curl, Postman)
+        if (!origin) return callback(null, true);
+        if (allowedOrigins.indexOf(origin) !== -1) {
+            return callback(null, true);
+        }
+        return callback(new Error('CORS policy: This origin is not allowed'));
+    },
+    credentials: true,
+}));
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 

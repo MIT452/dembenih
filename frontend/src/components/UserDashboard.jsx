@@ -1,5 +1,5 @@
 import React, { useEffect, useState, useContext } from 'react';
-import axios from 'axios';
+import api from '../api';
 import { motion, AnimatePresence } from 'framer-motion';
 import { 
   LogOut, FileText, Download, CheckCircle, File, User as UserIcon, 
@@ -80,13 +80,13 @@ const UserDashboard = () => {
     try {
       const headers = { Authorization: `Bearer ${user.token}` };
       
-      const resDemandes = await axios.get('http://localhost:4000/api/demandes', { headers });
+      const resDemandes = await api.get('/demandes', { headers });
       setDemandes(resDemandes.data.data);
 
-      const resNotifs = await axios.get('http://localhost:4000/api/demandes/notifications', { headers });
+      const resNotifs = await api.get('/demandes/notifications', { headers });
       setNotifications(resNotifs.data.data);
 
-      const resMessages = await axios.get('http://localhost:4000/api/contact/my', { headers });
+      const resMessages = await api.get('/contact/my', { headers });
       setMessages(resMessages.data.data);
     } catch (err) {
       console.error('Erreur lors du chargement des données', err);
@@ -109,7 +109,7 @@ const UserDashboard = () => {
     setLoading(true);
     try {
       const headers = { Authorization: `Bearer ${user.token}` };
-      await axios.post('http://localhost:4000/api/demandes', newDemande, { headers });
+      await api.post('/demandes', newDemande, { headers });
       addToast('Votre demande administrative a bien été transmise.', 'success');
       setNewDemande({ title: '', description: '', type: 'Acte de naissance' });
       setModalOpen(null);
@@ -124,7 +124,7 @@ const UserDashboard = () => {
   const handleMarkAsRead = async () => {
     try {
       const headers = { Authorization: `Bearer ${user.token}` };
-      await axios.put('http://localhost:4000/api/demandes/notifications/read', {}, { headers });
+      await api.put('/demandes/notifications/read', {}, { headers });
       // Refresh list locally
       setNotifications(prev => prev.map(n => ({ ...n, read: true })));
     } catch (err) {
@@ -896,7 +896,7 @@ const UserDashboard = () => {
                 e.preventDefault(); 
                 setLoading(true);
                 try {
-                  await axios.post('http://localhost:4000/api/contact', {
+                  await api.post('/contact', {
                     name: `${user.firstname} ${user.lastname}`,
                     email: user.email,
                     phone: user.phone,

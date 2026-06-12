@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from 'react';
+import api from '../api';
 import { motion } from 'framer-motion';
 import { 
   Info, ArrowRight, Play, CheckCircle2, FileText, Trash2, Heart, Music, Users, 
@@ -67,13 +68,8 @@ const Home = () => {
     const fetchPublications = async () => {
       try {
         setIsLoadingCMS(true);
-        const response = await fetch('http://localhost:4000/api/publications?status=published');
-        
-        if (!response.ok) {
-          throw new Error(`API a répondu avec le statut ${response.status}`);
-        }
-        
-        const data = await response.json();
+        const response = await api.get('/publications?status=published');
+        const data = response.data;
         
         if (data && data.success && Array.isArray(data.data)) {
           // Séparer les événements des actualités pour l'affichage

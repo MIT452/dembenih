@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import axios from 'axios';
+import api from '../api';
 import { motion, AnimatePresence } from 'framer-motion';
 import { Search, Clock, ArrowRight, X, Newspaper, TrendingUp, Users, Zap, Eye, Share2 } from 'lucide-react';
 
@@ -48,9 +48,8 @@ const NewsPage = () => {
   const [selectedNews, setSelectedNews] = useState(null);
 
   useEffect(() => {
-    axios.get('http://localhost:4000/api/publications?status=published')
+    api.get('/publications?status=published')
       .then(res => {
-        // Fetch all published publications, then prioritize news/actualites/annonces
         if (res.data && res.data.success && Array.isArray(res.data.data)) {
           const filteredNews = res.data.data.filter(pub => pub.type !== 'evenement');
           setNews(filteredNews);

@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import axios from 'axios';
+import api from '../api';
 import { Image, Loader2, Upload, X } from 'lucide-react';
 
 const ImageUpload = ({ onUploadSuccess, currentImage, label = "Télécharger une image" }) => {
@@ -24,15 +24,16 @@ const ImageUpload = ({ onUploadSuccess, currentImage, label = "Télécharger une
 
         try {
             const token = localStorage.getItem('token');
-            const res = await axios.post('http://localhost:4000/api/upload', formData, {
+            const res = await api.post('/upload', formData, {
                 headers: {
                     'Content-Type': 'multipart/form-data',
                     Authorization: `Bearer ${token}`
                 }
             });
-            
-            // Success
-            const imageUrl = `http://localhost:4000${res.data.data}`;
+
+            // Success - build absolute URL from env
+            const base = import.meta.env.VITE_API_URL || 'http://localhost:4000';
+            const imageUrl = `${base}${res.data.data}`;
             onUploadSuccess(imageUrl);
         } catch (err) {
             console.error('Erreur upload', err);

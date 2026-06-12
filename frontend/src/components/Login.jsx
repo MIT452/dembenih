@@ -1,6 +1,6 @@
 
 import React, { useState, useEffect, useContext } from 'react';
-import axios from 'axios';
+import api from '../api';
 import { 
   ShieldCheck, Loader2, Mail, Lock, ArrowRight, Home, User, Phone, 
   MapPin, Image, CheckCircle, ChevronRight, Info, AlertCircle, Building, Users, ShieldAlert
@@ -51,7 +51,7 @@ const Login = () => {
     setLoading(true);
     setMsg({ type: '', text: '' });
     try {
-      const res = await axios.post('http://localhost:4000/api/auth/login', loginData);
+      const res = await api.post('/auth/login', loginData);
       const { token, ...userData } = res.data.data;
       
       login(token, userData);
@@ -86,7 +86,7 @@ const Login = () => {
     }
 
     try {
-      await axios.post('http://localhost:4000/api/auth/register', {
+      await api.post('/auth/register', {
         firstname: registerData.firstname,
         lastname: registerData.lastname,
         email: registerData.email,

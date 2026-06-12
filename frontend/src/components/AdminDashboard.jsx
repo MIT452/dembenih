@@ -1,5 +1,5 @@
 import React, { useEffect, useState, useContext } from 'react';
-import axios from 'axios';
+import api from '../api';
 import { motion, AnimatePresence } from 'framer-motion';
 import { 
   UserCheck, UserX, Search, RefreshCw, Users, FileText, Plus, Trash2, Edit, X, 
@@ -129,27 +129,27 @@ const AdminDashboard = () => {
       const headers = { Authorization: `Bearer ${user.token}` };
       
       // Fetch Stats
-      const resStats = await axios.get('http://localhost:4000/api/admin/stats', { headers });
+      const resStats = await api.get('/admin/stats', { headers });
       setStats(resStats.data.data);
 
       // Fetch Citizens
-      const resUsers = await axios.get('http://localhost:4000/api/admin/users', { headers });
+      const resUsers = await api.get('/admin/users', { headers });
       setCitizens(resUsers.data.data);
 
       // Fetch Demands
-      const resDemands = await axios.get('http://localhost:4000/api/admin/demandes', { headers });
+      const resDemands = await api.get('/admin/demandes', { headers });
       setDemandes(resDemands.data.data);
 
       // Fetch Publications (CMS Global Dynamique)
-      const resPubs = await axios.get('http://localhost:4000/api/publications', { headers });
+      const resPubs = await api.get('/publications', { headers });
       setPublications(resPubs.data.data);
 
       // Fetch Services
-      const resServices = await axios.get('http://localhost:4000/api/services');
+      const resServices = await api.get('/services');
       setServices(resServices.data.data);
 
       // Fetch Messages (Contact)
-      const resMessages = await axios.get('http://localhost:4000/api/contact/all', { headers });
+      const resMessages = await api.get('/contact/all', { headers });
       setMessages(resMessages.data.data);
 
       if (!silent) {
@@ -182,7 +182,7 @@ const AdminDashboard = () => {
   const handleValidateCitizen = async (id) => {
     try {
       const headers = { Authorization: `Bearer ${user.token}` };
-      await axios.put(`http://localhost:4000/api/admin/users/${id}/validate`, {}, { headers });
+      await api.put(`/admin/users/${id}/validate`, {}, { headers });
       triggerToast("Identité citoyenne validée avec succès");
       fetchAllData(true);
     } catch (err) {
@@ -194,7 +194,7 @@ const AdminDashboard = () => {
   const handleRejectCitizen = async (id) => {
     try {
       const headers = { Authorization: `Bearer ${user.token}` };
-      await axios.put(`http://localhost:4000/api/admin/users/${id}/reject`, {}, { headers });
+      await api.put(`/admin/users/${id}/reject`, {}, { headers });
       triggerToast("Demande citoyenne rejetée", "error");
       fetchAllData(true);
     } catch (err) {
@@ -207,7 +207,7 @@ const AdminDashboard = () => {
     if (!window.confirm('Voulez-vous vraiment supprimer définitivement cet utilisateur ?')) return;
     try {
       const headers = { Authorization: `Bearer ${user.token}` };
-      await axios.delete(`http://localhost:4000/api/admin/users/${id}`, { headers });
+      await api.delete(`/admin/users/${id}`, { headers });
       triggerToast("Compte citoyen supprimé");
       fetchAllData(true);
     } catch (err) {
@@ -226,7 +226,7 @@ const AdminDashboard = () => {
         ...publicationForm,
         tags: formattedTags
       };
-      await axios.post('http://localhost:4000/api/publications', payload, { headers });
+      await api.post('/publications', payload, { headers });
       setCurrentModal(null);
       setPublicationForm({
         title: '',
@@ -258,7 +258,7 @@ const AdminDashboard = () => {
         ...publicationForm,
         tags: formattedTags
       };
-      await axios.put(`http://localhost:4000/api/publications/${selectedItem._id}`, payload, { headers });
+      await api.put(`/publications/${selectedItem._id}`, payload, { headers });
       setCurrentModal(null);
       setSelectedItem(null);
       setPublicationForm({
@@ -286,7 +286,7 @@ const AdminDashboard = () => {
     if (!window.confirm('Voulez-vous vraiment supprimer définitivement cette publication ?')) return;
     try {
       const headers = { Authorization: `Bearer ${user.token}` };
-      await axios.delete(`http://localhost:4000/api/publications/${id}`, { headers });
+      await api.delete(`/publications/${id}`, { headers });
       triggerToast("Publication supprimée définitivement");
       fetchAllData(true);
     } catch (err) {
@@ -299,7 +299,7 @@ const AdminDashboard = () => {
     try {
       const headers = { Authorization: `Bearer ${user.token}` };
       const newStatus = item.status === 'published' ? 'draft' : 'published';
-      await axios.put(`http://localhost:4000/api/publications/${item._id}`, { status: newStatus }, { headers });
+      await api.put(`/publications/${item._id}`, { status: newStatus }, { headers });
       triggerToast(`Statut changé à : ${newStatus === 'published' ? 'Publié' : 'Brouillon'}`);
       fetchAllData(true);
     } catch (err) {
@@ -317,7 +317,7 @@ const AdminDashboard = () => {
     };
     try {
       const headers = { Authorization: `Bearer ${user.token}` };
-      await axios.post('http://localhost:4000/api/services', formatted, { headers });
+      await api.post('/services', formatted, { headers });
       setCurrentModal(null);
       setServiceForm({ title: '', desc: '', fullDesc: '', category: 'Soins', img: '', location: '', hours: '', phone: '', email: '', benefits: '' });
       triggerToast("Nouveau service public créé");
@@ -336,7 +336,7 @@ const AdminDashboard = () => {
     };
     try {
       const headers = { Authorization: `Bearer ${user.token}` };
-      await axios.put(`http://localhost:4000/api/services/${selectedItem._id}`, formatted, { headers });
+      await api.put(`/services/${selectedItem._id}`, formatted, { headers });
       setCurrentModal(null);
       setSelectedItem(null);
       setServiceForm({ title: '', desc: '', fullDesc: '', category: 'Soins', img: '', location: '', hours: '', phone: '', email: '', benefits: '' });
@@ -352,7 +352,7 @@ const AdminDashboard = () => {
     if (!window.confirm('Voulez-vous supprimer ce service ?')) return;
     try {
       const headers = { Authorization: `Bearer ${user.token}` };
-      await axios.delete(`http://localhost:4000/api/services/${id}`, { headers });
+      await api.delete(`/services/${id}`, { headers });
       triggerToast("Service public archivé");
       fetchAllData(true);
     } catch (err) {
@@ -366,7 +366,7 @@ const AdminDashboard = () => {
     if (!window.confirm('Voulez-vous vraiment supprimer ce message ?')) return;
     try {
       const headers = { Authorization: `Bearer ${user.token}` };
-      await axios.delete(`http://localhost:4000/api/contact/${id}`, { headers });
+      await api.delete(`/contact/${id}`, { headers });
       triggerToast("Message supprimé");
       fetchAllData(true);
     } catch (err) {
@@ -380,7 +380,7 @@ const AdminDashboard = () => {
     e.preventDefault();
     try {
       const headers = { Authorization: `Bearer ${user.token}` };
-      await axios.post(`http://localhost:4000/api/admin/demandes/${selectedItem._id}/respond`, respondForm, { headers });
+      await api.post(`/admin/demandes/${selectedItem._id}/respond`, respondForm, { headers });
       setCurrentModal(null);
       setSelectedItem(null);
       setRespondForm({ message: '', status: 'approved' });

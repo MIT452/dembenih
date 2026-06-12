@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import axios from 'axios';
+import api from '../api';
 import { motion, AnimatePresence } from 'framer-motion';
 import { useNavigate } from 'react-router-dom';
 import { 
@@ -47,7 +47,7 @@ const CulturePage = () => {
   useEffect(() => {
     const fetchCultureData = async () => {
       try {
-        const res = await axios.get('http://localhost:4000/api/publications?type=evenement&category=Culture');
+        const res = await api.get('/publications?type=evenement&category=Culture');
         setEvents(res.data.data);
       } catch (err) {
         console.error('Erreur chargement culture', err);
