@@ -13,7 +13,7 @@ import ImageUpload from './ImageUpload';
 const Login = () => {
   const navigate = useNavigate();
   const location = useLocation();
-  const { login } = useContext(AuthContext);
+  const { login, loginWithCredentials } = useContext(AuthContext);
 
   // Auto-detect route to activate correct form tab
   const isRegisterRoute = location.pathname === '/register';
@@ -51,10 +51,9 @@ const Login = () => {
     setLoading(true);
     setMsg({ type: '', text: '' });
     try {
-      const res = await api.post('/auth/login', loginData);
-      const { token, ...userData } = res.data.data;
+      const resData = await loginWithCredentials(loginData.email, loginData.password);
+      const { token, ...userData } = resData.data;
       
-      login(token, userData);
       setMsg({ type: 'success', text: 'Connexion réussie ! Redirection...' });
       
       setTimeout(() => {

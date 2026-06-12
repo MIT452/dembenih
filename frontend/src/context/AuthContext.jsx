@@ -1,4 +1,5 @@
 import React, { createContext, useState, useEffect } from 'react';
+import api from '../api';
 
 export const AuthContext = createContext();
 
@@ -30,6 +31,14 @@ export const AuthProvider = ({ children }) => {
     setUser({ token, ...userData });
   };
 
+  // Async login helper: performs API call then stores token/data
+  const loginWithCredentials = async (email, password) => {
+    const res = await api.post('/auth/login', { email, password });
+    const { token, ...userData } = res.data.data;
+    login(token, userData);
+    return res.data;
+  };
+
   const logout = () => {
     localStorage.removeItem('userToken');
     localStorage.removeItem('userData');
@@ -48,7 +57,7 @@ export const AuthProvider = ({ children }) => {
   };
 
   return (
-    <AuthContext.Provider value={{ user, loading, login, logout, updateProfile }}>
+    <AuthContext.Provider value={{ user, loading, login, loginWithCredentials, logout, updateProfile }}>
       {!loading && children}
     </AuthContext.Provider>
   );
