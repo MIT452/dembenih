@@ -70,6 +70,15 @@ h1, h2, h3, h4, h5, h6 {
   line-height: 1.2;
 }
 
+/* News page headline font */
+.news-page-title {
+  font-family: 'Playfair Display', serif;
+  font-weight: 700;
+  font-size: clamp(2rem, 6vw, 4rem);
+  letter-spacing: 0.01em;
+  margin: 0.25rem 0 0.75rem 0;
+}
+
 a { text-decoration: none; color: inherit; transition: all var(--t-base); }
 ul { list-style: none; }
 button { font-family: inherit; cursor: pointer; border: none; background: none; transition: all var(--t-base); }
@@ -126,7 +135,7 @@ img { max-width: 100%; display: block; }
   -webkit-backdrop-filter: blur(20px);
   border-bottom: 1px solid rgba(255, 255, 255, 0.1);
   transition: all 0.5s var(--ease);
-  padding: 20px 0;
+  padding: 16px 0;
   box-shadow: 0 10px 40px rgba(0, 0, 0, 0.12);
 }
 
@@ -137,7 +146,15 @@ img { max-width: 100%; display: block; }
   -webkit-backdrop-filter: blur(25px);
   border-bottom: 1px solid rgba(34, 197, 94, 0.25);
   box-shadow: 0 15px 40px rgba(5, 35, 22, 0.35);
-  padding: 14px 0;
+  padding: 12px 0;
+}
+
+.navbar-header-premium.compact-navbar {
+  padding: 10px 0;
+}
+
+.navbar-header-premium.compact-navbar.scrolled {
+  padding: 8px 0;
 }
 
 .navbar-container-prem {
@@ -159,6 +176,45 @@ img { max-width: 100%; display: block; }
   gap: 12px;
   text-decoration: none;
   justify-content: center;
+}
+
+.navbar-logo-with-text {
+  flex-direction: column;
+  gap: 4px;
+}
+
+.navbar-logo-image {
+  height: 52px;
+  width: auto;
+  border-radius: 8px;
+}
+
+.navbar-logo-with-text img {
+  margin-bottom: 0;
+}
+
+.navbar-logo-text {
+  font-size: 0.8rem;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  color: white;
+  text-transform: uppercase;
+}
+
+.navbar-header-premium.compact-navbar .navbar-logo-image {
+  height: 48px;
+}
+
+.navbar-header-premium.compact-navbar .navbar-logo-text {
+  font-size: 0.75rem;
+}
+
+.navbar-header-premium.compact-navbar .navbar-link-prem {
+  font-size: 0.9rem;
+}
+
+.navbar-header-premium.compact-navbar .navbar-links-prem {
+  gap: 20px;
 }
 
 .logo-badge-p {
@@ -2314,12 +2370,16 @@ img { max-width: 100%; display: block; }
 /* ──────────────────────────────────────────────────────────
    FOOTER
    ────────────────────────────────────────────────────────── */
-.main-footer {
-  background: #0f3c28;
+.main-footer,
+.footer-main {
+  background: linear-gradient(135deg, rgba(15, 60, 40, 0.8) 0%, rgba(8, 38, 25, 0.8) 100%);
   color: white;
   padding: 60px 0 40px;
   border-radius: 48px 48px 0 0;
   margin-top: 50px;
+}
+.footer-main {
+  border-top: 1px solid rgba(255, 255, 255, 0.1);
 }
 
 .footer-grid {

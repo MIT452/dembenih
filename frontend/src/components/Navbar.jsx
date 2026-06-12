@@ -1,7 +1,19 @@
 import React, { useState, useEffect, useContext, useRef } from 'react';
 import { Link, useLocation, useNavigate } from 'react-router-dom';
 import { AuthContext } from '../context/AuthContext';
-import { Menu, X, User, LogOut, FileText, Bell, Settings, ShieldAlert, Key } from 'lucide-react';
+import { Menu, X, User, LogOut, FileText, Bell, Settings, ShieldAlert, Home, Layers, Briefcase, Newspaper, Globe, HeartPulse, PhoneCall } from 'lucide-react';
+import logoMairie from '../assets/logo-mairie-dembeni.jpg';
+
+const navIcons = {
+  '/': Home,
+  '/demarches': FileText,
+  '/projet': Layers,
+  '/services': Briefcase,
+  '/actualites': Newspaper,
+  '/culture': Globe,
+  '/sante': HeartPulse,
+  '/contact': PhoneCall
+};
 
 const Navbar = () => {
   const { user, logout } = useContext(AuthContext);
@@ -60,46 +72,61 @@ const Navbar = () => {
     navigate('/');
   };
 
+  const isDashboard = location.pathname.startsWith('/admin') || location.pathname.startsWith('/compte');
+  const headerClasses = `navbar-header-premium ${isScrolled ? 'scrolled' : ''} ${isDashboard ? 'compact-navbar' : ''}`.trim();
+
   return (
-    <header className={`navbar-header-premium ${isScrolled ? 'scrolled' : ''}`}>
+    <header className={headerClasses}>
       <div className="navbar-container-prem">
         
         {/* Left Desktop Links */}
         <nav className="navbar-menu-desktop left">
           <ul className="navbar-links-prem">
-            {leftLinks.map((link) => (
-              <li key={link.path}>
-                <Link
-                  to={link.path}
-                  className={`navbar-link-prem ${isActive(link.path) ? 'active' : ''}`}
-                >
-                  {link.name}
-                </Link>
-              </li>
-            ))}
+            {leftLinks.map((link) => {
+              const Icon = navIcons[link.path] || null;
+              return (
+                <li key={link.path}>
+                  <Link
+                    to={link.path}
+                    className={`navbar-link-prem ${isActive(link.path) ? 'active' : ''}`}
+                  >
+                    {Icon && <Icon size={16} style={{ marginRight: '8px' }} />}
+                    {link.name}
+                  </Link>
+                </li>
+              );
+            })}
           </ul>
         </nav>
 
         {/* Centered Brand Logo */}
-        <Link to="/" className="navbar-logo-prem center">
-          <span className="logo-badge-p">D</span>
-          <span className="logo-text-p">DEMBÉNI</span>
+        <Link to="/" className="navbar-logo-prem center navbar-logo-with-text">
+          <img 
+            src={logoMairie} 
+            alt="Logo Mairie de Dembéni" 
+            className="navbar-logo-image"
+          />
+          <span className="navbar-logo-text">Dembeni</span>
         </Link>
 
         {/* Right Desktop Links & Action Button */}
         <div className="navbar-right-wrap-desktop">
           <nav className="navbar-menu-desktop right">
             <ul className="navbar-links-prem">
-              {rightLinks.map((link) => (
-                <li key={link.path}>
-                  <Link
-                    to={link.path}
-                    className={`navbar-link-prem ${isActive(link.path) ? 'active' : ''}`}
-                  >
-                    {link.name}
-                  </Link>
-                </li>
-              ))}
+              {rightLinks.map((link) => {
+                const Icon = navIcons[link.path] || null;
+                return (
+                  <li key={link.path}>
+                    <Link
+                      to={link.path}
+                      className={`navbar-link-prem ${isActive(link.path) ? 'active' : ''}`}
+                    >
+                      {Icon && <Icon size={16} style={{ marginRight: '8px' }} />}
+                      {link.name}
+                    </Link>
+                  </li>
+                );
+              })}
             </ul>
           </nav>
 
@@ -207,18 +234,21 @@ const Navbar = () => {
       {/* Mobile Drawer Menu */}
       <div className={`navbar-mobile-drawer ${isMenuOpen ? 'open' : ''}`}>
         <ul className="navbar-mobile-links">
-          {allLinks.map((link) => (
-            <li key={link.path}>
-              <Link
-                to={link.path}
-                className={`navbar-mobile-link ${isActive(link.path) ? 'active' : ''}`}
-                onClick={() => setIsMenuOpen(false)}
-              >
-                {link.name}
-              </Link>
-            </li>
-          ))}
-          
+            {allLinks.map((link) => {
+              const Icon = navIcons[link.path] || null;
+              return (
+                <li key={link.path}>
+                  <Link
+                    to={link.path}
+                    className={`navbar-mobile-link ${isActive(link.path) ? 'active' : ''}`}
+                    onClick={() => setIsMenuOpen(false)}
+                  >
+                    {Icon && <Icon size={16} style={{ marginRight: '10px' }} />}
+                    {link.name}
+                  </Link>
+                </li>
+              );
+            })}
           <li className="mobile-action-li">
             {user ? (
               <div className="mobile-user-nav-wrapper">

@@ -1,0 +1,27 @@
+# Project dependency snapshot (generated)
+# Backend (Node packages - reference)
+bcryptjs==3.0.3
+cors==2.8.6
+dotenv==17.4.2
+express==5.2.1
+express-async-handler==1.2.0
+jsonwebtoken==9.0.3
+mongoose==9.6.3
+morgan==1.10.1
+multer==2.1.1
+nodemailer==8.0.9
+nodemon==3.1.14
+
+# Frontend (Node packages - reference)
+@emailjs/browser==4.4.1
+axios==1.16.1
+framer-motion==11.18.2
+lucide-react==0.400.0
+react==18.3.1
+react-dom==18.3.1
+react-router-dom==6.30.3
+@vitejs/plugin-react==4.7.0
+vite==5.4.21
+
+# Note: These are npm package versions recorded for reference.
+# For actual installation use `npm install` in `backend` and `frontend`.

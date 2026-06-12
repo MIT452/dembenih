@@ -7,6 +7,36 @@ import {
   ChevronRight, Info, ExternalLink, Activity, Users, Globe, Compass, X
 } from 'lucide-react';
 
+// Prefer local images from `public/` for hero and fallbacks (faster, coherent)
+const fallbackCultureEventImage = '/news_concert.png';
+const cultureHeroImage = '/dembeni_lagon_aerial.jpg';
+
+const eventTitleImageMap = {
+  "Exposition : L'Usine Sucrière d'autrefois": '/aerial.jpg',
+  'Concours de Chants Traditionnels': '/news_workshop.png',
+  'Journées du Patrimoine : Visite de la Mosquée': '/mairie.jpg',
+  'Festival Interculturel de Dembéni': '/market_dembeni.png',
+  'MJC Tsararano': '/groupe.jpg'
+};
+
+const heritageImages = {
+  1: '/mairie.jpg',
+  2: '/market_dembeni.png',
+  3: '/groupe.jpg'
+};
+
+const getEventImage = (event) => {
+  const image = event.image?.trim() || event.coverImage?.trim();
+  if (image) return image;
+  const title = (event.title || event.name || '').toLowerCase();
+  const mapped = Object.keys(eventTitleImageMap).find((key) => {
+    const normalized = key.toLowerCase();
+    return title.includes(normalized) || normalized.includes(title);
+  });
+  if (mapped) return eventTitleImageMap[mapped];
+  return fallbackCultureEventImage;
+};
+
 const CulturePage = () => {
   const navigate = useNavigate();
   const [events, setEvents] = useState([]);
@@ -33,22 +63,25 @@ const CulturePage = () => {
       id: 1,
       title: "Mosquée de Dembéni",
       desc: "Un joyau architectural témoignant de l'histoire spirituelle de la commune.",
-      img: "https://images.unsplash.com/photo-1590076215667-873d31481e13?auto=format&fit=crop&w=800&q=80",
-      location: "Centre-ville"
+      icon: Compass,
+      location: "Centre-ville",
+      color: "#0f3c28"
     },
     {
       id: 2,
       title: "Ancienne Usine Sucrière",
       desc: "Vestiges de l'époque industrielle, un lieu de mémoire incontournable.",
-      img: "https://images.unsplash.com/photo-1518709268805-4e9042af9f23?auto=format&fit=crop&w=800&q=80",
-      location: "Quartier Sud"
+      icon: Activity,
+      location: "Quartier Sud",
+      color: "#78350f"
     },
     {
       id: 3,
       title: "Pôles Culturels",
       desc: "La MJC et la bibliothèque municipale, cœurs battants de la jeunesse.",
-      img: "https://images.unsplash.com/photo-1521587760476-6c12a4b040da?auto=format&fit=crop&w=800&q=80",
-      location: "Tsararano"
+      icon: Music,
+      location: "Tsararano",
+      color: "#1e40af"
     }
   ];
 
@@ -63,18 +96,18 @@ const CulturePage = () => {
         alignItems: 'center', 
         justifyContent: 'center',
         overflow: 'hidden',
-        background: '#0f3c28'
+        backgroundImage: `url('${cultureHeroImage}')`,
+        backgroundSize: 'cover',
+        backgroundPosition: 'center'
       }}>
         <motion.div 
-          initial={{ scale: 1.1, opacity: 0 }}
-          animate={{ scale: 1, opacity: 0.4 }}
+          initial={{ scale: 1.05, opacity: 0 }}
+          animate={{ scale: 1, opacity: 0.55 }}
           transition={{ duration: 1.5 }}
           style={{ 
             position: 'absolute', 
             top: 0, left: 0, width: '100%', height: '100%',
-            backgroundImage: 'url(https://images.unsplash.com/photo-1516450360452-9312f5e86fc7?auto=format&fit=crop&w=1600&q=80)',
-            backgroundSize: 'cover',
-            backgroundPosition: 'center'
+            background: 'linear-gradient(180deg, rgba(15,23,42,0.7) 0%, rgba(15,23,42,0.35) 45%, rgba(15,23,42,0.8) 100%)',
           }}
         />
         <div className="h-container" style={{ position: 'relative', zIndex: 2, textAlign: 'center', color: 'white' }}>
@@ -149,8 +182,12 @@ const CulturePage = () => {
                 border: '1px solid #f1f5f9'
               }}
             >
-              <div style={{ height: '250px', overflow: 'hidden' }}>
-                <img src={site.img} alt={site.title} style={{ width: '100%', height: '100%', objectFit: 'cover' }} />
+              <div style={{ width: '100%', height: '250px', overflow: 'hidden', borderBottom: '1px solid #f1f5f9' }}>
+                <img
+                  src={heritageImages[site.id] || '/news_concert.png'}
+                  alt={site.title}
+                  style={{ width: '100%', height: '100%', objectFit: 'cover' }}
+                />
               </div>
               <div style={{ padding: '30px' }}>
                 <div style={{ display: 'flex', alignItems: 'center', gap: '8px', color: '#10b981', fontSize: '0.8rem', fontWeight: 800, textTransform: 'uppercase', marginBottom: '10px' }}>
@@ -205,6 +242,14 @@ const CulturePage = () => {
             <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(300px, 1fr))', gap: '25px' }}>
               {events.map((event) => (
                 <div key={event._id} style={{ background: 'white', padding: '25px', borderRadius: '20px', boxShadow: '0 4px 20px rgba(0,0,0,0.02)' }}>
+                  <div style={{ width: '100%', height: '180px', overflow: 'hidden', borderRadius: '18px', marginBottom: '20px', background: '#f8fafc' }}>
+                    <img
+                      src={getEventImage(event)}
+                      alt={event.title}
+                      style={{ width: '100%', height: '100%', objectFit: 'cover' }}
+                      onError={(e) => { e.currentTarget.onerror = null; e.currentTarget.src = fallbackCultureEventImage; }}
+                    />
+                  </div>
                   <span style={{ fontSize: '0.75rem', fontWeight: 800, color: '#10b981', background: 'rgba(16,185,129,0.1)', padding: '4px 12px', borderRadius: '20px' }}>
                     {new Date(event.eventDate).toLocaleDateString('fr-FR', { day: 'numeric', month: 'long' })}
                   </span>
@@ -292,8 +337,11 @@ const CulturePage = () => {
                 <X size={20} />
               </button>
               
-              <div style={{ height: '400px' }}>
-                <img src={selectedSite.img} alt={selectedSite.title} style={{ width: '100%', height: '100%', objectFit: 'cover' }} />
+              <div style={{ height: '400px', background: `${selectedSite.color}15`, display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+                {(() => {
+                  const Icon = selectedSite.icon;
+                  return <Icon size={120} color={selectedSite.color} />;
+                })()}
               </div>
               
               <div style={{ padding: '40px' }}>
