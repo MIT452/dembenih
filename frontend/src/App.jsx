@@ -1,5 +1,5 @@
 import React from 'react';
-import { BrowserRouter as Router, Routes, Route, useLocation } from 'react-router-dom';
+import { HashRouter as Router, Routes, Route, useLocation } from 'react-router-dom';
 import Navbar from './components/Navbar';
 import Footer from './components/Footer';
 import Home from './components/Home';
@@ -18,8 +18,9 @@ import Services from './components/Services';
 
 function App() {
   return (
-    <Router basename="/dembeni2/">
+    <Router>
       <div className="app-container" style={{ display: 'flex', flexDirection: 'column', minHeight: '100vh' }}>
+        <div style={{ padding: '8px', background: 'white', color: '#000', textAlign: 'center' }}>APP OK</div>
         <Navbar />
         <main style={{ flex: 1 }}>
           <Routes>
