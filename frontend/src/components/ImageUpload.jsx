@@ -32,7 +32,7 @@ const ImageUpload = ({ onUploadSuccess, currentImage, label = "Télécharger une
             });
 
             // Success - build absolute URL from env
-            const base = import.meta.env.VITE_API_URL || 'http://localhost:4000';
+            const base = import.meta.env.VITE_API_URL || 'https://dembenih.onrender.com';
             const imageUrl = `${base}${res.data.data}`;
             onUploadSuccess(imageUrl);
         } catch (err) {

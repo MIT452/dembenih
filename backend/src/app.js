@@ -7,9 +7,11 @@ const routes = require('./routes');
 const app = express();
 
 // CORS configuration: allow frontend production domain and local dev
+// Uses FRONTEND_URL env var when available (set this in Render settings)
+const FRONTEND_URL = process.env.FRONTEND_URL || 'https://devfiderana-commits.github.io';
 const allowedOrigins = [
-    'https://devfiderana-commits.github.io',
-    'https://devfiderana-commits.github.io/dembeni2',
+    FRONTEND_URL,
+    `${FRONTEND_URL}/dembeniH`,
     'http://localhost:5173',
     'http://localhost:3000',
     'http://127.0.0.1:5173',
