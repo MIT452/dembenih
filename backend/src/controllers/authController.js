@@ -63,7 +63,10 @@ const registerUser = asyncHandler(async (req, res) => {
 const loginUser = asyncHandler(async (req, res) => {
     const { email, password } = req.body;
 
+    console.log('🔐 Login attempt received:', { email, passwordProvided: !!password });
+
     const user = await User.findOne({ email });
+    console.log('🔎 User lookup result:', !!user ? `found ${user.email}` : 'not found');
 
     if (user && (await user.matchPassword(password))) {
         // If user is a citizen, check if status is approved

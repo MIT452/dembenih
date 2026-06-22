@@ -27,7 +27,7 @@ const publicationSchema = mongoose.Schema({
     },
     image: { 
         type: String, 
-        default: 'https://images.unsplash.com/photo-1541888062862-23f2ec4da240?auto=format&fit=crop&w=800&q=80' 
+        default: 'https://images.unsplash.com/photo-1598977122420-091920678d2b?auto=format&fit=crop&w=1200&q=80' 
     },
     status: {
         type: String,

@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import api from '../api';
+import { getStaticUrl } from '../utils/getStaticUrl';
 import { motion } from 'framer-motion';
 import { 
   Info, ArrowRight, Play, CheckCircle2, FileText, Trash2, Heart, Music, Users, 
@@ -181,7 +182,7 @@ const Home = () => {
           <div className="floating-cards-container">
             {/* Card 1: Hôtel de Ville — Vertical overlay design */}
             <div className="floating-card vertical-card">
-              <img src="/mairie.jpg" alt="Hôtel de Ville" className="card-full-image" />
+              <img src={getStaticUrl('/mairie.jpg')} alt="Hôtel de Ville" className="card-full-image" />
               <div className="card-footer-glass">
                 <div className="card-footer-icon-circle">
                   <Landmark size={18} />
@@ -197,7 +198,7 @@ const Home = () => {
             
             {/* Card 2: Vie Locale — Wide community focus card */}
             <div className="floating-card wide-card">
-              <img src="/groupe.jpg" alt="Vie Locale" className="card-full-image" />
+              <img src={getStaticUrl('/groupe.jpg')} alt="Vie Locale" className="card-full-image" />
               <div className="card-footer-glass">
                 <div className="card-footer-icon-circle">
                   <Users size={18} />
@@ -304,16 +305,16 @@ const Home = () => {
                 {/* Main Selected Image */}
                 <div className="showcase-image-wrapper">
                   {activeCommuneTab === 'mairie' && (
-                    <img src="/mairie.jpg" alt="Hôtel de Ville" className="showcase-active-img" />
+                    <img src={getStaticUrl('/mairie.jpg')} alt="Hôtel de Ville" className="showcase-active-img" />
                   )}
                   {activeCommuneTab === 'jeunesse' && (
-                    <img src="/news_workshop.png" alt="Jeunesse & Éducation" className="showcase-active-img" />
+                    <img src={getStaticUrl('/news_workshop.png')} alt="Jeunesse & Éducation" className="showcase-active-img" />
                   )}
                   {activeCommuneTab === 'lagon' && (
-                    <img src="/beach_dembeni.png" alt="Littoral & Lagon" className="showcase-active-img" />
+                    <img src={getStaticUrl('/beach_dembeni.png')} alt="Littoral & Lagon" className="showcase-active-img" />
                   )}
                   {activeCommuneTab === 'projets' && (
-                    <img src="/market_dembeni.png" alt="Projets & Développement" className="showcase-active-img" />
+                    <img src={getStaticUrl('/market_dembeni.png')} alt="Projets & Développement" className="showcase-active-img" />
                   )}
                   
                   {/* Floating Glass Overlay Info */}
@@ -371,7 +372,7 @@ const Home = () => {
                 {/* Box 1: Histoire & Patrimoine */}
                 <div className="expanded-card">
                   <div className="expanded-card-image-wrap">
-                    <img src="/beach_dembeni.png" alt="Histoire & Patrimoine" className="expanded-card-img" />
+                    <img src={getStaticUrl('/beach_dembeni.png')} alt="Histoire & Patrimoine" className="expanded-card-img" />
                     <div className="expanded-card-tag">HISTOIRE & PATRIMOINE</div>
                   </div>
                   <div className="expanded-card-body">
@@ -413,7 +414,7 @@ const Home = () => {
                 {/* Box 2: Vie Associative & Citoyenne */}
                 <div className="expanded-card">
                   <div className="expanded-card-image-wrap">
-                    <img src="/groupe.jpg" alt="Vie Associative & Citoyenneté" className="expanded-card-img" />
+                    <img src={getStaticUrl('/groupe.jpg')} alt="Vie Associative & Citoyenneté" className="expanded-card-img" />
                     <div className="expanded-card-tag">CITOYENNETÉ & ASSOCIATIONS</div>
                   </div>
                   <div className="expanded-card-body">
@@ -455,7 +456,7 @@ const Home = () => {
                 {/* Box 3: Éducation & Jeunesse */}
                 <div className="expanded-card">
                   <div className="expanded-card-image-wrap">
-                    <img src="/news_workshop.png" alt="Éducation & Jeunesse" className="expanded-card-img" />
+                    <img src={getStaticUrl('/news_workshop.png')} alt="Éducation & Jeunesse" className="expanded-card-img" />
                     <div className="expanded-card-tag">JEUNESSE & ÉDUCATION</div>
                   </div>
                   <div className="expanded-card-body">
@@ -497,7 +498,7 @@ const Home = () => {
                 {/* Box 4: Développement Local */}
                 <div className="expanded-card">
                   <div className="expanded-card-image-wrap">
-                    <img src="/market_dembeni.png" alt="Infrastructures & Urbanisme" className="expanded-card-img" />
+                    <img src={getStaticUrl('/market_dembeni.png')} alt="Infrastructures & Urbanisme" className="expanded-card-img" />
                     <div className="expanded-card-tag">DÉVELOPPEMENT LOCAL</div>
                   </div>
                   <div className="expanded-card-body">
@@ -539,7 +540,7 @@ const Home = () => {
                 {/* Box 5: Environnement & Biodiversité */}
                 <div className="expanded-card">
                   <div className="expanded-card-image-wrap">
-                    <img src="/dembeni_lagon_aerial.jpg" alt="Environnement & Biodiversité" className="expanded-card-img" />
+                    <img src={getStaticUrl('/dembeni_lagon_aerial.jpg')} alt="Environnement & Biodiversité" className="expanded-card-img" />
                     <div className="expanded-card-tag">ENVIRONNEMENT</div>
                   </div>
                   <div className="expanded-card-body">
@@ -581,7 +582,7 @@ const Home = () => {
                 {/* Box 6: Culture & Traditions */}
                 <div className="expanded-card">
                   <div className="expanded-card-image-wrap">
-                    <img src="/news_concert.png" alt="Culture & Traditions" className="expanded-card-img" />
+                    <img src={getStaticUrl('/news_concert.png')} alt="Culture & Traditions" className="expanded-card-img" />
                     <div className="expanded-card-tag">CULTURE & TRADITIONS</div>
                   </div>
                   <div className="expanded-card-body">
@@ -623,7 +624,7 @@ const Home = () => {
                 {/* Box 7: Villages & Quartiers */}
                 <div className="expanded-card">
                   <div className="expanded-card-image-wrap">
-                    <img src="/groupe.jpg" alt="Villages & Quartiers de Dembéni" className="expanded-card-img" />
+                    <img src={getStaticUrl('/groupe.jpg')} alt="Villages & Quartiers de Dembéni" className="expanded-card-img" />
                     <div className="expanded-card-tag">QUARTIERS & TERRITOIRES</div>
                   </div>
                   <div className="expanded-card-body">
@@ -665,7 +666,7 @@ const Home = () => {
                 {/* Box 8: Chiffres Clés & Administration */}
                 <div className="expanded-card">
                   <div className="expanded-card-image-wrap">
-                    <img src="/mairie.jpg" alt="Chiffres Clés de Dembéni" className="expanded-card-img" />
+                    <img src={getStaticUrl('/mairie.jpg')} alt="Chiffres Clés de Dembéni" className="expanded-card-img" />
                     <div className="expanded-card-tag">CHIFFRES CLÉS</div>
                   </div>
                   <div className="expanded-card-body">
@@ -800,7 +801,7 @@ const Home = () => {
                 <div className="news-main-column">
                   {featuredItem ? (
                     <div className="news-card-featured">
-                      <img src={featuredItem.coverImage || featuredItem.image || '/placeholder.png'} alt={featuredItem.title} className="news-card-img" />
+                      <img src={getStaticUrl(featuredItem.coverImage || featuredItem.image || '/placeholder.png')} alt={featuredItem.title} className="news-card-img" />
                       <div className="news-card-overlay" />
                       <div className="news-card-content">
                         <span className={`news-card-badge ${featuredItem.badgeClass || 'badge-yellow'}`}>
@@ -822,7 +823,7 @@ const Home = () => {
                   <div className="news-sub-grid">
                     {secondaryItems.map((item) => (
                       <div key={item._id || item.id || Math.random()} className="news-card-small">
-                        <img src={item.coverImage || item.image || '/placeholder.png'} alt={item.title} className="news-card-img" />
+                        <img src={getStaticUrl(item.coverImage || item.image || '/placeholder.png')} alt={item.title} className="news-card-img" />
                         <div className="news-card-overlay" />
                         <div className="news-card-content">
                           <span className={`news-card-badge ${item.badgeClass || 'badge-green'}`}>
@@ -927,7 +928,7 @@ const Home = () => {
                 visibleEvents.map((item) => (
                   <div key={item._id || item.id || Math.random()} className="event-card-premium" style={{ borderRadius: '20px', border: '1px solid #e2e8f0', overflow: 'hidden', background: '#f8fafc', textAlign: 'left' }}>
                     <div className="event-media-premium" style={{ height: '160px', position: 'relative' }}>
-                      <img src={item.coverImage || item.image || '/placeholder.png'} alt={item.title} className="event-img-premium" />
+                      <img src={getStaticUrl(item.coverImage || item.image || '/placeholder.png')} alt={item.title} className="event-img-premium" />
                       <div className="play-btn-glass" style={{ width: '36px', height: '36px' }}><Play size={14} fill="currentColor" /></div>
                     </div>
                     <div className="event-body-premium" style={{ padding: '20px' }}>
@@ -1069,7 +1070,7 @@ const Home = () => {
             
             <div className="waste-visual-collage">
               <div className="waste-collage-image-card">
-                <img src="/waste_collection_premium.png" alt="Service public de salubrité à Dembéni" />
+                <img src={getStaticUrl('/waste_collection_premium.png')} alt="Service public de salubrité à Dembéni" />
                 <div className="collage-overlay" />
                 <div className="collage-caption-box">
                   <span className="collage-tag">Action Municipale</span>
@@ -1123,7 +1124,7 @@ const Home = () => {
                   </p>
                 </div>
                 <div className="ps-image-card" style={{ height: '180px', borderRadius: '16px', overflow: 'hidden' }}>
-                  <img src="https://images.unsplash.com/photo-1541872703-74c5e44368f9?auto=format&fit=crop&w=600&q=80" alt="Mairie de Dembéni" className="ps-img" />
+                  <img src="https://images.unsplash.com/photo-1598977122420-091920678d2b?w=150&h=150&fit=crop&crop=center" alt="Mairie de Dembéni" className="ps-img" />
                 </div>
               </div>
             </div>
@@ -1164,7 +1165,7 @@ const Home = () => {
           </div>
 
           <div className="ruins-img-card" style={{ height: '360px', borderRadius: '20px', overflow: 'hidden', position: 'relative', marginTop: '24px' }}>
-            <img src="https://images.unsplash.com/photo-1461360370896-922624d12aa1?auto=format&fit=crop&w=1200&q=80" alt="Ruins" className="ruins-img" />
+            <img src="https://images.unsplash.com/photo-1598977122420-091920678d2b?auto=format&fit=crop&w=1200&q=80" alt="Ruins" className="ruins-img" />
           </div>
           
           <p className="ruins-caption" style={{ fontSize: '0.82rem', color: '#64748b', fontWeight: 700, marginTop: '14px', maxWidth: '800px', margin: '14px auto 0 auto' }}>
@@ -1197,7 +1198,7 @@ const Home = () => {
               </Link>
             </div>
           </div>
-          <div className="pink-visual" style={{ background: "url('https://images.unsplash.com/photo-1576765608535-5f04d1e3f289?auto=format&fit=crop&w=600&q=80') center/cover" }} />
+          <div className="pink-visual" style={{ background: "url('https://images.unsplash.com/photo-1598977122420-091920678d2b?auto=format&fit=crop&w=1200&q=80') center/cover" }} />
         </div>
       </section>
 
@@ -1215,8 +1216,8 @@ const Home = () => {
           </div>
 
           <div className="presentation-layout" style={{ marginTop: '32px', gap: '32px', gridTemplateColumns: '1fr 1fr', alignItems: 'center' }}>
-            <div className="presentation-images" style={{ height: '300px', borderRadius: '16px', overflow: 'hidden' }}>
-              <img src="https://images.unsplash.com/photo-1511632765486-a01980e01a18?auto=format&fit=crop&w=600&q=80" alt="Association" style={{ width: '100%', height: '100%', objectFit: 'cover' }} />
+              <div className="presentation-images" style={{ height: '300px', borderRadius: '16px', overflow: 'hidden' }}>
+              <img src="https://images.unsplash.com/photo-1598977122420-091920678d2b?auto=format&fit=crop&w=1200&q=80" alt="Association" style={{ width: '100%', height: '100%', objectFit: 'cover' }} />
             </div>
             <div className="presentation-content" style={{ textAlign: 'left' }}>
               <div className="presentation-text">

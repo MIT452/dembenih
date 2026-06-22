@@ -18,7 +18,7 @@ const serviceSchema = new mongoose.Schema({
     },
     img: {
         type: String,
-        default: 'https://images.unsplash.com/photo-1576091160550-2173dba999ef?auto=format&fit=crop&q=80&w=800'
+        default: 'https://images.unsplash.com/photo-1598977122420-091920678d2b?auto=format&fit=crop&w=1200&q=80'
     },
     category: {
         type: String,

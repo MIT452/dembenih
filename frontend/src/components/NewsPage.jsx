@@ -17,18 +17,17 @@ const couleursParCategorie = {
 };
 
 const fallbackImagesByCategory = {
-  'Vie citoyenne': 'https://images.unsplash.com/photo-1529156069898-49953e39b3ac?auto=format&fit=crop&w=1200&q=80',
-  'Environnement': 'https://images.unsplash.com/photo-1441974231531-c6227db76b6e?auto=format&fit=crop&w=1200&q=80',
-  'Jeunesse': 'https://images.unsplash.com/photo-1461896836934-ffe607ba8211?auto=format&fit=crop&w=1200&q=80',
-  'Sécurité': 'https://images.unsplash.com/photo-1542975155-61bd5f2b4a0b?auto=format&fit=crop&w=1200&q=80',
-  'Santé & Solidarité': 'https://images.unsplash.com/photo-1576091160550-2173dba999ef?auto=format&fit=crop&w=1200&q=80',
-  'Urbanisme': 'https://images.unsplash.com/photo-1486406146926-c627a92ad1ab?auto=format&fit=crop&w=1200&q=80',
-  'Éducation': 'https://images.unsplash.com/photo-1427504494785-cdff860cbf90?auto=format&fit=crop&w=1200&q=80',
-  'Services publics': 'https://images.unsplash.com/photo-1552821206-7bc4d3a523cd?auto=format&fit=crop&w=1200&q=80',
-  'Développement local': 'https://images.unsplash.com/photo-1519389950473-47ba0277781c?auto=format&fit=crop&w=1200&q=80',
-  'Général': 'https://images.unsplash.com/photo-1470229722913-7f419344ca51?auto=format&fit=crop&w=1200&q=80'
+  'Vie citoyenne': 'https://images.unsplash.com/photo-1598977122420-091920678d2b?auto=format&fit=crop&w=1200&q=80',
+  'Environnement': 'https://images.unsplash.com/photo-1598977122420-091920678d2b?auto=format&fit=crop&w=1200&q=80',
+  'Jeunesse': 'https://images.unsplash.com/photo-1598977122420-091920678d2b?auto=format&fit=crop&w=1200&q=80',
+  'Sécurité': 'https://images.unsplash.com/photo-1598977122420-091920678d2b?auto=format&fit=crop&w=1200&q=80',
+  'Santé & Solidarité': 'https://images.unsplash.com/photo-1598977122420-091920678d2b?auto=format&fit=crop&w=1200&q=80',
+  'Urbanisme': 'https://images.unsplash.com/photo-1598977122420-091920678d2b?auto=format&fit=crop&w=1200&q=80',
+  'Éducation': 'https://images.unsplash.com/photo-1598977122420-091920678d2b?auto=format&fit=crop&w=1200&q=80',
+  'Services publics': 'https://images.unsplash.com/photo-1598977122420-091920678d2b?auto=format&fit=crop&w=1200&q=80',
+  'Développement local': 'https://images.unsplash.com/photo-1598977122420-091920678d2b?auto=format&fit=crop&w=1200&q=80',
+  'Général': 'https://images.unsplash.com/photo-1598977122420-091920678d2b?auto=format&fit=crop&w=1200&q=80'
 };
-
 // Use local hero image from public/ for offline / faster loading
 const newsHeroImage = '/hero_bg_modern.png';
 

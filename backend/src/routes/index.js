@@ -11,6 +11,8 @@ const demandeRoutes = require('./demandeRoutes');
 const contactRoutes = require('./contactRoutes');
 const publicationRoutes = require('./publicationRoutes');
 const uploadRoutes = require('./uploadRoutes');
+const demarcheRoutes = require('./demarcheRoutes');
+const projetRoutes = require('./projetRoutes');
 
 // Health check route
 router.get('/health', (req, res) => {
@@ -27,5 +29,7 @@ router.use('/demandes', demandeRoutes);
 router.use('/contact', contactRoutes);
 router.use('/publications', publicationRoutes);
 router.use('/upload', uploadRoutes);
+router.use('/demarches', demarcheRoutes);
+router.use('/projets', projetRoutes);
 
 module.exports = router;

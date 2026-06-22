@@ -1161,7 +1161,7 @@ const AdminDashboard = () => {
                     {filteredPublications.map(pub => (
                       <div key={pub._id} style={{ background: isDarkMode ? '#121824' : 'white', borderRadius: '20px', border: '1px solid', borderColor: isDarkMode ? '#1e293b' : '#e2e8f0', overflow: 'hidden', display: 'flex', flexDirection: 'column', textAlign: 'left', transition: 'all 0.3s ease' }}>
                         <div style={{ position: 'relative', height: '180px' }}>
-                          <img src={pub.image || 'https://images.unsplash.com/photo-1541888062862-23f2ec4da240?auto=format&fit=crop&w=800&q=80'} alt={pub.title} style={{ width: '100%', height: '100%', objectFit: 'cover' }} />
+                          <img src={pub.image || 'https://images.unsplash.com/photo-1598977122420-091920678d2b?auto=format&fit=crop&w=1200&q=80'} alt={pub.title} style={{ width: '100%', height: '100%', objectFit: 'cover' }} />
                           <div style={{ position: 'absolute', top: '10px', right: '10px', display: 'flex', gap: '6px' }}>
                             <span style={{ fontSize: '0.65rem', fontWeight: '800', background: pub.status === 'published' ? '#dcfce7' : '#fee2e2', color: pub.status === 'published' ? '#10b981' : '#ef4444', padding: '3px 8px', borderRadius: '6px', textTransform: 'uppercase' }}>
                               {pub.status === 'published' ? 'En ligne' : 'Brouillon'}
@@ -1312,7 +1312,7 @@ const AdminDashboard = () => {
                   
                   <div style={{ background: isDarkMode ? '#121824' : 'white', borderRadius: '20px', border: '1px solid', borderColor: isDarkMode ? '#1e293b' : '#e2e8f0', overflow: 'hidden', display: 'flex', flexDirection: 'column', maxWidth: '400px', margin: '0 auto', boxShadow: '0 10px 25px -5px rgba(0,0,0,0.1)' }}>
                     <div style={{ position: 'relative', height: '200px' }}>
-                      <img src={publicationForm.image || 'https://images.unsplash.com/photo-1541888062862-23f2ec4da240?auto=format&fit=crop&w=800&q=80'} alt="Aperçu" style={{ width: '100%', height: '100%', objectFit: 'cover' }} />
+                      <img src={publicationForm.image || 'https://images.unsplash.com/photo-1598977122420-091920678d2b?auto=format&fit=crop&w=1200&q=80'} alt="Aperçu" style={{ width: '100%', height: '100%', objectFit: 'cover' }} />
                       <div style={{ position: 'absolute', top: '10px', right: '10px', display: 'flex', gap: '6px' }}>
                         <span style={{ fontSize: '0.65rem', fontWeight: '800', background: '#dcfce7', color: '#10b981', padding: '3px 8px', borderRadius: '6px', textTransform: 'uppercase' }}>En ligne</span>
                         {publicationForm.isPinned && (

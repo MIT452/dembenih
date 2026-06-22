@@ -176,6 +176,7 @@ img { max-width: 100%; display: block; }
   gap: 12px;
   text-decoration: none;
   justify-content: center;
+  transform: translateX(-1.5cm);
 }
 
 .navbar-logo-with-text {
@@ -2468,7 +2469,7 @@ img { max-width: 100%; display: block; }
   display: flex;
   align-items: center;
   justify-content: center;
-  background-image: url('https://images.unsplash.com/photo-1576091160399-112ba8d25d1d?auto=format&fit=crop&q=80&w=1920');
+  background-image: url('https://images.unsplash.com/photo-1598977122420-091920678d2b?auto=format&fit=crop&w=1200&q=80');
   background-size: cover;
   background-position: center;
   color: white;

@@ -2,9 +2,30 @@ import React, { useState } from 'react';
 import { 
   Heart, Shield, Activity, Phone, Calendar, Users, 
   Award, Info, MapPin, Clock, ArrowRight, BookOpen, 
-  Sparkles, HeartHandshake, Smile, CheckCircle, X, Mail
+  Sparkles, HeartHandshake, Smile, CheckCircle, X, Mail,
+  Stethoscope, Home, Utensils, Trees, UserCircle, Baby, Building2
 } from 'lucide-react';
 import { Link } from 'react-router-dom';
+
+// Helper to create SVG gradient images
+const getPlaceholderImage = (category, title) => {
+  const colors = {
+    "Soins": "from-emerald-500 to-teal-600",
+    "Social": "from-blue-500 to-indigo-600",
+    "Prévention": "from-purple-500 to-pink-600",
+    "Famille": "from-pink-500 to-rose-600",
+    "Aînés": "from-amber-500 to-orange-600",
+    "Environnement": "from-green-500 to-lime-600",
+    "Vie citoyenne": "from-teal-500 to-cyan-600"
+  };
+  
+  // Return data URI for SVG
+  const colorPair = colors[category] || "from-slate-500 to-slate-700";
+  const gradient1 = colorPair.split(' ')[1].replace('to-', '');
+  const gradient2 = colorPair.split(' ')[3]?.replace('to-', '') || gradient1;
+  
+  return `data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='800' height='500' viewBox='0 0 800 500'%3E%3Cdefs%3E%3ClinearGradient id='grad' x1='0%25' y1='0%25' x2='100%25' y2='100%25'%3E%3Cstop offset='0%25' style='stop-color:%23${gradient1}'/%3E%3Cstop offset='100%25' style='stop-color:%23${gradient2}'/%3E%3C/linearGradient%3E%3C/defs%3E%3Crect width='100%25' height='100%25' fill='url(%23grad)'/%3E%3Ctext x='50%25' y='50%25' dominant-baseline='middle' text-anchor='middle' font-family='Arial' font-size='60' fill='white' opacity='0.3'%3E${encodeURIComponent(title.substring(0, 15))}%3C/text%3E%3C/svg%3E`;
+};
 
 const SantePage = () => {
   const [selectedService, setSelectedService] = useState(null);
@@ -15,7 +36,7 @@ const SantePage = () => {
       desc: "Notre établissement principal de soins de proximité pour tous les administrés de Dembéni.",
       fullDesc: "Le Centre de Santé Communal de Dembéni est le pilier de l'accès aux soins de premier recours sur notre territoire. Conçu pour répondre aux besoins quotidiens des familles, il rassemble des praticiens de confiance et propose des consultations généralistes ainsi que des soins infirmiers programmés ou urgents.",
       icon: <Activity size={24} />,
-      img: "https://images.unsplash.com/photo-1519494026892-80bbd2d6fd0d?auto=format&fit=crop&q=80&w=800",
+      img: getPlaceholderImage("Soins", "Santé"),
       category: "Soins",
       location: "Rue de la Mairie, Tsararano, Dembéni",
       hours: "Lundi au Vendredi : 7h30 - 16h30 | Samedi : 8h00 - 12h00",
@@ -32,7 +53,7 @@ const SantePage = () => {
       desc: "Des consultations de médecine générale accessibles sur rendez-vous ou permanences.",
       fullDesc: "Afin de garantir un suivi médical continu pour chaque habitant, nous organisons des permanences de médecine générale quotidiennes. Nos médecins partenaires vous accueillent pour les pathologies aiguës, le suivi des maladies chroniques, et la délivrance de certificats d'aptitude.",
       icon: <Users size={24} />,
-      img: "https://images.unsplash.com/photo-1584515901387-a7a1a63376b6?auto=format&fit=crop&q=80&w=800",
+      img: getPlaceholderImage("Soins", "Médecins"),
       category: "Soins",
       location: "Dispensaire d'Iloni, Dembéni",
       hours: "Lundi, Mardi et Jeudi : 8h00 - 17h00 | Mercredi et Vendredi : 8h00 - 13h00",
@@ -49,7 +70,7 @@ const SantePage = () => {
       desc: "Aide à la constitution des dossiers administratifs d'accès aux soins de santé publique.",
       fullDesc: "L'accès aux droits est indispensable pour se soigner correctement. Nos conseillers du Centre Communal d'Action Sociale (CCAS) vous guident pas à pas dans l'ouverture de votre Complémentaire Santé Solidaire (ex-CMU) et de l'Aide Médicale de l'État (AME), afin de lever toute barrière financière aux soins.",
       icon: <Shield size={24} />,
-      img: "https://images.unsplash.com/photo-1576091160399-112ba8d25d1d?auto=format&fit=crop&q=80&w=800",
+      img: getPlaceholderImage("Social", "Aide"),
       category: "Social",
       location: "Pôle Social & CCAS, Mairie de Dembéni",
       hours: "Lundi au Jeudi : 8h00 - 15h30 | Vendredi : 8h00 - 11h30",
@@ -66,7 +87,7 @@ const SantePage = () => {
       desc: "Organisation de séances de vaccination régulières pour les enfants, adultes et voyageurs.",
       fullDesc: "La couverture vaccinale est essentielle pour immuniser durablement notre communauté face aux maladies infectieuses. La commune organise de fréquentes journées de vaccination gratuites, en conformité avec le calendrier vaccinal national, ouvertes à tous sans rendez-vous préalable.",
       icon: <CheckCircle size={24} />,
-      img: "https://images.unsplash.com/photo-1584036561566-baf8f5f1b144?auto=format&fit=crop&q=80&w=800",
+      img: getPlaceholderImage("Prévention", "Vaccins"),
       category: "Prévention",
       location: "Dispensaire Central et Écoles Primaires de Dembéni",
       hours: "Permanences tous les Mercredis : 8h30 - 16h00",
@@ -83,7 +104,7 @@ const SantePage = () => {
       desc: "Ateliers et stands d'information sur la nutrition, l'hygiène de vie et l'activité sportive.",
       fullDesc: "Parce que préserver sa santé commence par l'adoption de bons comportements, nos éducateurs de santé organisent régulièrement des ateliers interactifs. Au programme : nutrition saine à base de fruits et légumes locaux, prévention du diabète et encouragement de l'activité physique.",
       icon: <BookOpen size={24} />,
-      img: "https://images.unsplash.com/photo-1441986300917-64674bd600d8?auto=format&fit=crop&q=80&w=800",
+      img: getPlaceholderImage("Prévention", "Santé"),
       category: "Prévention",
       location: "MJC d'Ongojou, Dembéni",
       hours: "Ateliers thématiques les Samedis : 9h00 - 12h00",
@@ -100,7 +121,7 @@ const SantePage = () => {
       desc: "Suivi personnalisé pré et post-natal par des infirmiers diplômés et des sages-femmes dédiées.",
       fullDesc: "Le service PMI (Protection Maternelle et Infantile) de Dembéni propose un accompagnement chaleureux et hautement professionnel pour les femmes enceintes et les jeunes parents. De la grossesse aux six ans de l'enfant, nos infirmières puéricultrices et sages-femmes veillent à la santé physique et affective de votre foyer.",
       icon: <Heart size={24} />,
-      img: "https://images.unsplash.com/photo-1502086223501-7ea6ecd79368?auto=format&fit=crop&q=80&w=800",
+      img: getPlaceholderImage("Famille", "Famille"),
       category: "Famille",
       location: "Centre PMI d'Iloni, Dembéni",
       hours: "Lundi au Vendredi : 8h00 - 16h00",
@@ -117,7 +138,7 @@ const SantePage = () => {
       desc: "Visites à domicile régulières, portage de repas et soutien à la mobilité pour les personnes âgées.",
       fullDesc: "Garantir le maintien à domicile et lutter contre l'isolement de nos aînés est une priorité humaine fondamentale. Le CCAS déploie quotidiennement des auxiliaires de vie pour la livraison de repas équilibrés, l'aide aux courses et les visites de courtoisie régulières.",
       icon: <HeartHandshake size={24} />,
-      img: "https://images.unsplash.com/photo-1576765608535-5f04d1e3f289?auto=format&fit=crop&q=80&w=800",
+      img: getPlaceholderImage("Aînés", "Aînés"),
       category: "Aînés",
       location: "Déplacements à domicile dans toute la commune (Dembéni, Tsararano, Iloni, Ongojou)",
       hours: "Interventions 7j/7 : 7h30 - 19h00",
@@ -134,7 +155,7 @@ const SantePage = () => {
       desc: "Écoute bienveillante et soutien psychologique individuel sur rendez-vous avec nos professionnels.",
       fullDesc: "Parce que la santé mentale est tout aussi importante que la santé physique, la commune met à votre disposition un service d'écoute et de soutien psychologique gratuit. Dans un cadre strictement confidentiel, nos psychologues cliniciens vous épaulent face aux épreuves de la vie.",
       icon: <Smile size={24} />,
-      img: "https://images.unsplash.com/photo-1527137341206-1a2ab8144b56?auto=format&fit=crop&q=80&w=800",
+      img: getPlaceholderImage("Social", "Psycho"),
       category: "Social",
       location: "Espace Solidarité, Tsararano",
       hours: "Mardi et Jeudi : 9h00 - 17h00 | Sur rendez-vous uniquement",
@@ -151,7 +172,7 @@ const SantePage = () => {
       desc: "Actions de désinsectisation contre la dengue et contrôle de la qualité sanitaire de l'eau.",
       fullDesc: "La protection contre les épidémies passe par un environnement propre et sécurisé. Nos équipes d'intervention luttent activement contre la dengue et le paludisme en éliminant les gîtes larvaires et en effectuant des pulvérisations ciblées, tout en veillant à la salubrité du réseau d'eau potable.",
       icon: <Sparkles size={24} />,
-      img: "https://images.unsplash.com/photo-1504384308090-c894fdcc538d?auto=format&fit=crop&q=80&w=800",
+      img: getPlaceholderImage("Environnement", "Hygiène"),
       category: "Environnement",
       location: "Services Techniques Municipaux, Dembéni",
       hours: "Lundi au Vendredi : 7h00 - 15h00 | Astreintes d'urgence le week-end",
@@ -225,24 +246,24 @@ const SantePage = () => {
       desc: "Apprenez à cuisiner les produits maraîchers de Mayotte de façon saine et équilibrée.",
       date: "Chaque samedi matin",
       loc: "Maison des Associations",
-      img: "https://images.unsplash.com/photo-1498837167922-ddd27525d352?auto=format&fit=crop&q=80&w=800"
+      img: getPlaceholderImage("Vie citoyenne", "Cuisine")
     },
     {
       title: "Randonnée Santé & Bien-être",
       desc: "Une marche collective douce à travers les sentiers forestiers pour stimuler l'activité physique.",
       date: "Prochain départ le 30 mai",
       loc: "Départ Mairie",
-      img: "https://images.unsplash.com/photo-1551632811-561732d1e306?auto=format&fit=crop&q=80&w=800"
+      img: getPlaceholderImage("Vie citoyenne", "Randonnée")
     }
   ];
 
   const galleryImages = [
-    "https://images.unsplash.com/photo-1559839734-2b71ea197ec2?auto=format&fit=crop&q=80&w=800",
-    "https://images.unsplash.com/photo-1576091160550-2173dba999ef?auto=format&fit=crop&q=80&w=800",
-    "https://images.unsplash.com/photo-1581578731548-c64695cc6952?auto=format&fit=crop&q=80&w=800",
-    "https://images.unsplash.com/photo-1579684389782-64d84b5e902a?auto=format&fit=crop&q=80&w=800",
-    "https://images.unsplash.com/photo-1542810634-71277d95dcbb?auto=format&fit=crop&q=80&w=800",
-    "https://images.unsplash.com/photo-1551076805-e1869033e561?auto=format&fit=crop&q=80&w=800"
+    getPlaceholderImage("Soins", "Santé"),
+    getPlaceholderImage("Prévention", "Vaccin"),
+    getPlaceholderImage("Social", "Aide"),
+    getPlaceholderImage("Famille", "Famille"),
+    getPlaceholderImage("Environnement", "Nature"),
+    getPlaceholderImage("Aînés", "Aînés")
   ];
 
   return (
@@ -364,7 +385,7 @@ const SantePage = () => {
             </div>
             <div className="sante-solidarity-right">
               <img 
-                src="https://images.unsplash.com/photo-1593113598332-cd288d649433?auto=format&fit=crop&q=80&w=800" 
+                src={getPlaceholderImage("Social", "Solidarité")} 
                 alt="Solidarité humaine" 
                 className="solidarity-large-img"
               />
@@ -401,7 +422,7 @@ const SantePage = () => {
                       category: camp.type,
                       desc: camp.desc,
                       fullDesc: `Cette session publique gratuite est organisée par le pôle santé de Dembéni dans le cadre de nos initiatives territoriales de prévention. Venez rencontrer nos professionnels et obtenir des bilans de santé instantanés et fiables.`,
-                      img: "https://images.unsplash.com/photo-1579684389782-64d84b5e902a?auto=format&fit=crop&q=80&w=800",
+                      img: "https://images.unsplash.com/photo-1598977122420-091920678d2b?auto=format&fit=crop&w=1200&q=80",
                       location: camp.loc.replace('📍 ', ''),
                       hours: `Le ${camp.date} toute la journée`,
                       phone: "02 69 63 01 15",

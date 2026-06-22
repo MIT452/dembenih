@@ -12,17 +12,17 @@ const fallbackCultureEventImage = '/news_concert.png';
 const cultureHeroImage = '/dembeni_lagon_aerial.jpg';
 
 const eventTitleImageMap = {
-  "Exposition : L'Usine Sucrière d'autrefois": '/aerial.jpg',
-  'Concours de Chants Traditionnels': '/news_workshop.png',
-  'Journées du Patrimoine : Visite de la Mosquée': '/mairie.jpg',
-  'Festival Interculturel de Dembéni': '/market_dembeni.png',
+  "Exposition : L'Usine Sucrière d'autrefois": 'https://images.unsplash.com/photo-1510076857177-7470076d4098?w=400&h=250&fit=crop',
+  'Concours de Chants Traditionnels': 'https://images.unsplash.com/photo-1516450360452-9312f5e86fc7?w=400&h=250&fit=crop',
+  'Journées du Patrimoine : Visite de la Mosquée': 'https://images.unsplash.com/photo-1584551246679-0daf3d275d0f?w=400&h=250&fit=crop',
+  'Festival Interculturel de Dembéni': 'https://images.unsplash.com/photo-1533174072545-7a4b6ad7a6c3?w=400&h=250&fit=crop',
   'MJC Tsararano': '/groupe.jpg'
 };
 
 const heritageImages = {
-  1: '/mairie.jpg',
-  2: '/market_dembeni.png',
-  3: '/groupe.jpg'
+  1: 'https://images.unsplash.com/photo-1584551246679-0daf3d275d0f?w=400&h=250&fit=crop',
+  2: 'https://images.unsplash.com/photo-1510076857177-7470076d4098?w=400&h=250&fit=crop',
+  3: 'https://images.unsplash.com/photo-1533174072545-7a4b6ad7a6c3?w=400&h=250&fit=crop'
 };
 
 const getEventImage = (event) => {
