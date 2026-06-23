@@ -1,0 +1,108 @@
+/* Demarches page specific styles (mobile-first)
+   Improves layout, spacing and responsiveness without touching global styles
+*/
+
+.page-banner {
+  /* use global variables from index.css for consistent theme */
+  background-position: center;
+  background-size: cover;
+  padding: 3.2rem 1.25rem 4rem;
+  text-align: center;
+  color: var(--white);
+  position: relative;
+  overflow: hidden;
+}
+.page-banner-inner { max-width: 980px; margin: 0 auto; }
+.breadcrumb { display:inline-flex; gap:8px; color: rgba(255,255,255,0.9); font-size:0.95rem; margin-bottom:0.8rem; align-items:center }
+.breadcrumb a { color: rgba(255,255,255,0.95); text-decoration:none }
+.page-banner h1 { font-size: clamp(1.8rem, 5vw, 2.8rem); font-weight:800; margin-bottom:0.6rem }
+.page-banner p { color: rgba(255,255,255,0.92); max-width:780px; margin:0 auto }
+
+/* Search */
+.page-banner {
+  background-position: center;
+  background-size: cover;
+  padding: 3.2rem 1.25rem 4rem;
+  text-align: center;
+  color: var(--d-blanc);
+  position: relative;
+  overflow: hidden;
+}
+.page-banner-inner { max-width: 980px; margin: 0 auto; }
+.breadcrumb { display:inline-flex; gap:8px; color: rgba(255,255,255,0.85); font-size:0.9rem; margin-bottom:0.8rem; align-items:center }
+.breadcrumb a { color: rgba(255,255,255,0.9); text-decoration:none }
+.page-banner h1 { font-size: clamp(1.6rem, 5vw, 2.6rem); font-weight:800; margin-bottom:0.6rem }
+.page-banner p { color: rgba(255,255,255,0.9); max-width:720px; margin:0 auto }
+
+/* Search */
+.search-wrap { max-width:1000px; margin: -36px auto 1.75rem; padding: 0 1rem; z-index:12 }
+.search-bar { display:flex; gap:0.75rem; align-items:center; background:var(--white); border-radius:999px; padding:0.6rem 0.75rem 0.6rem 1rem; box-shadow:var(--shadow-md); border:1px solid var(--s-200) }
+.search-bar i { color: var(--s-400); font-size:1.05rem }
+.search-bar input { border:0; outline:0; flex:1; font-size:1rem; padding:8px; color:var(--text-muted) }
+.search-bar button { background: linear-gradient(135deg, var(--primary), var(--primary-light)); color:var(--white); border-radius:999px; padding:0.6rem 1.2rem; border:0; font-weight:700 }
+
+.clear-search { background: transparent; border: 0; color: #8aa69a; font-size:1rem; padding:6px; margin-right:6px; }
+
+/* Section container */
+.section { max-width:1200px; margin:0 auto; padding: 2.5rem 1rem; }
+.pt-0 { padding-top:0 }
+
+/* Tabs */
+.tabs { display:flex; flex-wrap:wrap; gap:.5rem; justify-content:center; margin-bottom:1.25rem }
+.tab-btn { padding:.55rem 1rem; border-radius:999px; background:var(--white); border:1.2px solid var(--s-200); color:var(--text-muted); font-weight:700; cursor:pointer }
+.tab-btn.active, .tab-btn:hover { background: var(--primary); color:var(--white); transform:translateY(-2px); box-shadow:var(--shadow-sm) }
+
+.tab-count { margin-left:8px; background: rgba(255,255,255,0.08); padding:2px 8px; border-radius:999px; font-weight:700; font-size:0.8rem }
+
+/* Grid */
+.demarches-grid { display:grid; grid-template-columns: repeat(auto-fill, minmax(300px,1fr)); gap:1.25rem }
+.demarche-card { background:var(--white); border-radius:var(--radius-md); padding:1.25rem; border:1px solid var(--s-200); box-shadow:var(--shadow-sm); display:flex; flex-direction:column; gap:0.75rem; cursor:pointer; transition:transform .22s var(--ease), box-shadow .22s var(--ease) }
+.demarche-card:focus { outline: 3px solid rgba(34,197,94,0.12); }
+.demarche-card:hover { transform:translateY(-6px); box-shadow:var(--shadow-md) }
+
+.card-top { display:flex; gap:1rem; align-items:center }
+.card-icon { width:56px; height:56px; border-radius:12px; display:flex; align-items:center; justify-content:center; background:var(--p-50); color:var(--primary); font-size:1.2rem }
+.card-meta h3 { margin:0; font-size:1.05rem; color:var(--text-dark) }
+.badge { font-size:.75rem; padding:.18rem .6rem; border-radius:999px; background:var(--p-50); color:var(--primary); font-weight:800 }
+.card-desc { color:var(--text-muted); font-size:.95rem; line-height:1.5; margin:0 }
+.card-steps-preview { margin-top:8px; color:var(--d-gris-500); font-size:0.92rem }
+.card-steps-preview ol { margin:0 0 8px 18px }
+.link-like { background: transparent; border: 0; color: var(--d-vert-700); font-weight:700; cursor:pointer; padding:0 }
+.card-footer { display:flex; justify-content:space-between; align-items:center; padding-top:0.75rem; margin-top:auto; border-top:1px solid var(--s-200) }
+.card-info-mini { color:var(--text-muted); font-size:.85rem }
+.card-link { color:var(--primary); font-weight:700; display:inline-flex; align-items:center; gap:6px }
+
+.no-results { text-align:center; grid-column:1/-1; padding:3rem 1rem; color:var(--text-muted) }
+
+/* Modal */
+.modal-overlay { display:none }
+.modal-overlay.active { display:flex; position:fixed; inset:0; align-items:center; justify-content:center; background:rgba(0,0,0,0.5); padding:1rem; z-index:2000 }
+.modal { background:var(--white); border-radius:var(--radius-md); padding:1.25rem; width:100%; max-width:720px; box-shadow:var(--shadow-lg); position:relative; max-height:90vh; overflow:auto }
+.close-btn { position:absolute; top:12px; right:12px; background:var(--s-100); border-radius:50%; width:36px; height:36px; border:0; display:flex; align-items:center; justify-content:center; cursor:pointer }
+.modal-icon { width:64px; height:64px; border-radius:12px; background:var(--p-50); display:flex; align-items:center; justify-content:center; font-size:1.2rem; color:var(--primary); margin-bottom:1rem }
+.modal h2 { margin:0 0 .6rem 0 }
+.modal p { color:var(--text-muted) }
+.modal-steps { background:var(--p-50); border-radius:12px; padding:0.9rem 1rem; margin:1rem 0 }
+.modal-steps ol { padding-left:1.1rem }
+.modal-actions { display:flex; gap:0.75rem; margin-top:1rem }
+
+/* Skeleton / shimmer */
+.skeleton { position:relative; overflow:hidden; }
+.skeleton .shimmer { height: 14px; background: linear-gradient(90deg, rgba(255,255,255,0.03) 0%, rgba(255,255,255,0.08) 50%, rgba(255,255,255,0.03) 100%); border-radius:6px }
+.skeleton .card-icon { background: linear-gradient(90deg, rgba(0,0,0,0.03) 0%, rgba(0,0,0,0.06) 50%, rgba(0,0,0,0.03) 100%) }
+.skeleton .badge { width: 48px; height: 18px; display:inline-block; background: var(--s-100); border-radius:12px }
+.skeleton .card-desc { height:44px; margin-top:8px }
+.skeleton .card-footer .shimmer { width:80px; height:12px; display:inline-block }
+
+/* Buttons */
+.btn { border:0; padding:10px 14px; border-radius:10px; cursor:pointer }
+.btn-outline { background: transparent; border:1px solid var(--s-200); color:var(--text-dark) }
+
+/* Responsive tweaks */
+@media (max-width: 768px) {
+  .page-banner { padding:2.2rem 1rem 2.8rem }
+  .search-wrap { margin-top:-20px }
+  .demarches-grid { grid-template-columns: 1fr }
+  .modal { padding:1rem }
+  .modal-actions { flex-direction:column }
+}
