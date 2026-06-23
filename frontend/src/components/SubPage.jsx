@@ -517,8 +517,8 @@ const SubPage = ({
             {/* Contenu principal */}
             <section style={{ padding: '20px 0 80px' }}>
                 <div className="section-container">
-                                                Gérer cette démarche
-                                            </Link>
+                    <AnimatePresence>
+                        {loading ? (
                             <motion.div 
                                 key="loading"
                                 initial={{ opacity: 0 }}
