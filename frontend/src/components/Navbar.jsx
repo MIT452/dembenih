@@ -2,7 +2,7 @@ import React, { useState, useEffect, useContext, useRef } from 'react';
 import { Link, useLocation, useNavigate } from 'react-router-dom';
 import { AuthContext } from '../context/AuthContext';
 import { Menu, X, User, LogOut, FileText, Bell, Settings, ShieldAlert, Home, Layers, Briefcase, Newspaper, Globe, HeartPulse, PhoneCall } from 'lucide-react';
-import logoMairie from '../assets/logo-mairie-dembeni.jpg';
+const logoMairie = `${import.meta.env.BASE_URL}logo-mairie-dembeni.jpg`;
 
 const navIcons = {
   '/': Home,
