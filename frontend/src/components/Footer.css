@@ -1,8 +1,23 @@
 .footer{
   background: linear-gradient(180deg, rgba(13,74,62,0.96) 0%, rgba(8,38,25,0.96) 100%);
   color: #e6eef0;
+  position: relative;
 }
 
+/* Bande verte de séparation (0.5cm) au-dessus du footer */
+.footer::before{
+  content: "";
+  position: absolute;
+  left: 0;
+  top: -0.5cm;
+  height: 0.5cm;
+  width: 100%;
+  background: inherit; /* use exact same background as parent */
+  pointer-events: none;
+}
+
+/* Ensure footer content sits above the pseudo-element */
+.footer-top, .footer-bottom{ position: relative; z-index: 1; }
 .footer-top{
   padding: 48px 24px;
   display: grid;

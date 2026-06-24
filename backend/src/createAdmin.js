@@ -16,8 +16,8 @@ const seedSpecificAdmin = async () => {
         await mongoose.connect(process.env.MONGO_URI);
         console.log('✅ Connecté à MongoDB');
         
-        const email = 'admin@dembeni.fr'; // Email par défaut pour l'admin
-        const password = '123456';
+        const email = 'admin@dembeni.com'; // Email par défaut pour l'admin
+        const password = 'admin1234';
         
         console.log(`🔄 Vérification du compte admin : ${email}`);
         
