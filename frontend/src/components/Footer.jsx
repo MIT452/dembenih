@@ -1,57 +1,117 @@
-import React from 'react';
-import { Facebook, Twitter, Instagram, Youtube, Mail, MapPin, Phone } from 'lucide-react';
+import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
+import api from '../api';
+import './Footer.css';
 
 const Footer = () => {
+  const [footer, setFooter] = useState(null);
+
+  useEffect(() => {
+    api.get('/content/footer')
+      .then(res => setFooter(res.data))
+      .catch(() => setFooter(null));
+  }, []);
+
+  const footerData = {
+    brandDescription: footer?.brandDescription || 'Portail citoyen officiel de la commune de Dembéni, Mayotte. Simplifiez vos démarches administratives en ligne, en toute sécurité.',
+    socialLinks: (footer?.socialLinks && footer.socialLinks.length > 0) ? footer.socialLinks : [
+      { icon: 'fab fa-facebook-f', url: '#', title: 'Facebook' },
+      { icon: 'fab fa-twitter', url: '#', title: 'Twitter' },
+      { icon: 'fab fa-instagram', url: '#', title: 'Instagram' }
+    ],
+    navLinks: (footer?.navigationLinks && footer.navigationLinks.length > 0) ? footer.navigationLinks :
+              (footer?.navLinks && footer.navLinks.length > 0) ? footer.navLinks : [
+      { text: 'Accueil', url: '/' },
+      { text: 'Démarches', url: '/demarches' },
+      { text: 'Collecte', url: '/collecte' },
+      { text: 'Service public', url: '/service-public' },
+      { text: 'Contact', url: '/contact' }
+    ],
+    serviceLinks: (footer?.servicesLinks && footer.servicesLinks.length > 0) ? footer.servicesLinks :
+                  (footer?.serviceLinks && footer.serviceLinks.length > 0) ? footer.serviceLinks : [
+      { text: 'État civil', url: '/demarches' },
+      { text: 'Documents officiels', url: '/demarches' },
+      { text: 'Urbanisme', url: '/demarches' },
+      { text: 'Crèche', url: '/inscription' },
+      { text: 'Encombrants', url: '/collecte' }
+    ],
+    contact: {
+      address: footer?.address || 'Mairie de Dembéni, Mayotte 97680',
+      phone: footer?.phone || '+262 269 XX XX XX',
+      email: footer?.email || 'dembenimairie@gmail.com',
+      hours: footer?.openingHours || 'Lun–Ven · 8h00 – 16h30'
+    },
+    copyrightText: footer?.copyrightText || '© 2026 Mairie de Dembéni — Tous droits réservés',
+    bottomLinks: (footer?.legalLinks && footer.legalLinks.length > 0) ? footer.legalLinks :
+                 (footer?.bottomLinks && footer.bottomLinks.length > 0) ? footer.bottomLinks : [
+      { text: 'Mentions légales', url: '#' },
+      { text: 'Confidentialité', url: '#' },
+      { text: 'Accessibilité', url: '#' }
+    ]
+  };
+
   return (
-    <footer className="main-footer footer-main">
-      <div className="section-container" style={{ padding: '0 20px 60px' }}>
-        <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(200px, 1fr))', gap: '40px' }}>
-          
-          <div>
-            <div className="navbar-logo" style={{ color: '#fff', marginBottom: '20px' }}>
-              <MapPin size={24} style={{ color: '#22c55e' }} />
-              DEMBENI
-            </div>
-            <p style={{ color: '#64748b', fontSize: '0.9rem', lineHeight: 1.6 }}>
-              Hôtel de Ville de Dembéni<br />
-              97660 Dembéni, Mayotte<br /><br />
-              <Phone size={14} /> 02 69 61 11 00
-            </p>
+    <footer className="footer">
+      <div className="footer-top h-container">
+        <div className="footer-brand">
+          <Link to="/" className="footer-logo">
+            <div className="logo-icon">D</div>
+            <span className="logo-name">DEMBÉNI<em>.</em></span>
+          </Link>
+          <p className="footer-desc">{footerData.brandDescription}</p>
+          <div className="footer-socials">
+            {footerData.socialLinks.map((link, i) => (
+              <a key={i} href={link.url} title={link.title} aria-label={link.title}><i className={link.icon}></i></a>
+            ))}
           </div>
+        </div>
 
-          <div>
-            <h4 style={{ fontWeight: 800, marginBottom: '20px' }}>Navigation</h4>
-            <ul style={{ listStyle: 'none', display: 'flex', flexDirection: 'column', gap: '10px' }}>
-              <li><Link to="/" style={{ color: '#64748b', fontSize: '0.9rem' }}>Accueil</Link></li>
-              <li><Link to="/demarches" style={{ color: '#64748b', fontSize: '0.9rem' }}>Démarches</Link></li>
-              <li><Link to="/projet" style={{ color: '#64748b', fontSize: '0.9rem' }}>Projet</Link></li>
-              <li><Link to="/contact" style={{ color: '#64748b', fontSize: '0.9rem' }}>Contact</Link></li>
-            </ul>
+        <div className="footer-col">
+          <h4>Navigation</h4>
+          <ul>
+            {footerData.navLinks.map((link, i) => (
+              <li key={i}><Link to={link.url}>{link.text}</Link></li>
+            ))}
+          </ul>
+        </div>
+
+        <div className="footer-col">
+          <h4>Services</h4>
+          <ul>
+            {footerData.serviceLinks.map((link, i) => (
+              <li key={i}><Link to={link.url}>{link.text}</Link></li>
+            ))}
+          </ul>
+        </div>
+
+        <div className="footer-col">
+          <h4>Contact</h4>
+          <div className="footer-contact-item">
+            <i className="fas fa-map-marker-alt" aria-hidden="true"></i>
+            <span>{footerData.contact.address}</span>
           </div>
-
-          <div>
-            <h4 style={{ fontWeight: 800, marginBottom: '20px' }}>Légal</h4>
-            <ul style={{ listStyle: 'none', display: 'flex', flexDirection: 'column', gap: '10px' }}>
-              <li><Link to="#" style={{ color: '#64748b', fontSize: '0.9rem' }}>Mentions légales</Link></li>
-              <li><Link to="#" style={{ color: '#64748b', fontSize: '0.9rem' }}>Confidentialité</Link></li>
-              <li><Link to="#" style={{ color: '#64748b', fontSize: '0.9rem' }}>Cookies</Link></li>
-            </ul>
+          <div className="footer-contact-item">
+            <i className="fas fa-phone" aria-hidden="true"></i>
+            <span>{footerData.contact.phone}</span>
           </div>
-
-          <div>
-            <h4 style={{ fontWeight: 800, marginBottom: '20px' }}>Suivez-nous</h4>
-            <div style={{ display: 'flex', gap: '15px' }}>
-               <Facebook size={20} style={{ color: '#64748b' }} />
-               <Twitter size={20} style={{ color: '#64748b' }} />
-               <Instagram size={20} style={{ color: '#64748b' }} />
-            </div>
+          <div className="footer-contact-item">
+            <i className="fas fa-envelope" aria-hidden="true"></i>
+            <span>{footerData.contact.email}</span>
           </div>
-
+          <div className="footer-contact-item">
+            <i className="far fa-clock" aria-hidden="true"></i>
+            <span>{footerData.contact.hours}</span>
+          </div>
         </div>
       </div>
-      <div style={{ textAlign: 'center', padding: '40px 20px', borderTop: '1px solid rgba(255,255,255,0.05)', color: '#475569', fontSize: '0.8rem' }}>
-        © 2026 Mairie de Dembéni — Tous droits réservés.
+
+      <div className="footer-bottom">
+        <p>{footerData.copyrightText}</p>
+        <div className="footer-bottom-links">
+          {footerData.bottomLinks.map((link, i) => (
+            <a key={i} href={link.url}>{link.text}</a>
+          ))}
+        </div>
       </div>
     </footer>
   );
