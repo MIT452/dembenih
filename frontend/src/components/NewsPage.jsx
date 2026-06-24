@@ -1,5 +1,6 @@
 import React, { useEffect, useState, useCallback } from 'react';
 import api from '../api';
+import getStaticUrl from '../utils/getStaticUrl';
 import { motion, AnimatePresence } from 'framer-motion';
 import { 
     Search, Clock, ArrowRight, X, Newspaper, TrendingUp, Users, Zap, 
@@ -41,13 +42,26 @@ const heroImages = [
 ];
 
 const getDisplayImage = (item) => {
-  const image = item.image?.trim() || item.coverImage?.trim();
-  if (image) return image;
-  const cat = item.category || item.categorie || 'Général';
-  return fallbackImagesByCategory[cat] || fallbackImagesByCategory['Général'];
+  if (!item) return null;
+  const imgField = item.image ?? item.coverImage;
+  if (!imgField) {
+    const cat = item.category || item.categorie || 'Général';
+    return fallbackImagesByCategory[cat] || fallbackImagesByCategory['Général'];
+  }
+  if (typeof imgField === 'string') {
+    const trimmed = imgField.trim();
+    if (trimmed) return trimmed;
+  }
+  if (typeof imgField === 'object') {
+    return imgField.secure_url || imgField.url || imgField.path || imgField.src || null;
+  }
+  return null;
 };
 
-const getSafeImageSrc = (item) => getDisplayImage(item) || '/news_concert.png';
+const getSafeImageSrc = (item) => {
+  const src = getDisplayImage(item);
+  return src || getStaticUrl('/news_concert.png');
+};
 
 const NewsPage = () => {
   const [news, setNews] = useState([]);
@@ -68,8 +82,10 @@ const NewsPage = () => {
   useEffect(() => {
     api.get('/publications?status=published')
       .then(res => {
+        console.log('Publications API response:', res.data);
         if (res.data && res.data.success && Array.isArray(res.data.data)) {
           const filteredNews = res.data.data.filter(pub => pub.type !== 'evenement');
+          console.log('Filtered news (sample images):', filteredNews.slice(0,5).map(n => n.image));
           setNews(filteredNews);
         } else {
           setNews([]);
@@ -685,7 +701,7 @@ const NewsPage = () => {
                         src={getSafeImageSrc(item)}
                         alt={item.title || item.titre}
                         style={{ width: '100%', height: '100%', objectFit: 'cover' }}
-                        onError={(e) => { e.currentTarget.onerror = null; e.currentTarget.src = '/news_concert.png'; }}
+                        onError={(e) => { e.currentTarget.onerror = null; e.currentTarget.src = getStaticUrl('/news_concert.png'); }}
                       />
                       
                       {/* Gradient overlay */}
@@ -845,7 +861,7 @@ const NewsPage = () => {
                   src={getSafeImageSrc(selectedNews)}
                   alt={selectedNews.title || selectedNews.titre}
                   style={{ width: '100%', height: '100%', objectFit: 'cover' }}
-                  onError={(e) => { e.currentTarget.onerror = null; e.currentTarget.src = '/news_concert.png'; }}
+                  onError={(e) => { e.currentTarget.onerror = null; e.currentTarget.src = getStaticUrl('/news_concert.png'); }}
                 />
                 
                 {/* Overlay */}

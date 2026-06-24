@@ -31,9 +31,11 @@ const ImageUpload = ({ onUploadSuccess, currentImage, label = "Télécharger une
                 }
             });
 
-            // Success - build absolute URL from env
+            // Success - server returns either an absolute URL (secure_url) or a relative path.
             const base = import.meta.env.VITE_API_URL || 'https://dembenih.onrender.com';
-            const imageUrl = `${base}${res.data.data}`;
+            const returned = res.data && res.data.data;
+            console.log('Upload response data:', returned);
+            const imageUrl = (typeof returned === 'string' && returned.startsWith('http')) ? returned : `${base}${returned}`;
             onUploadSuccess(imageUrl);
         } catch (err) {
             console.error('Erreur upload', err);
