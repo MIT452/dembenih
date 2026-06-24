@@ -4,6 +4,8 @@ import api from '../api';
 import './Footer.css';
 import logo from '../assets/logo.svg';
 
+const REMOTE_LOGO = 'https://devfiderana-commits.github.io/dembeniH/logo-mairie-dembeni.jpg';
+
 // Configuration par défaut extraite pour plus de clarté
 const DEFAULT_FOOTER_DATA = {
   brandDescription: 'Portail citoyen officiel de la commune de Dembéni, Mayotte. Simplifiez vos démarches administratives en ligne, en toute sécurité.',
@@ -63,7 +65,7 @@ const mergeFooterData = (apiData) => {
 // Sous-composants pour améliorer la lisibilité et la réutilisabilité
 const FooterLogo = () => (
   <Link to="/" className="footer-logo" aria-label="Retour à l'accueil">
-    <img src={logo} alt="Mairie de Dembéni" className="footer-logo-img" />
+    <img src={REMOTE_LOGO || logo} alt="Mairie de Dembéni" className="footer-logo-img" />
     <span className="logo-name">DEMBÉNI<em>.</em></span>
   </Link>
 );

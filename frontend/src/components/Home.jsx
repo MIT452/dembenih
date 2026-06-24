@@ -9,7 +9,6 @@ import {
   Landmark, MoreHorizontal, GraduationCap, Hammer, MapPin
 } from 'lucide-react';
 import { Link } from 'react-router-dom';
-import Footer from './Footer';
 
 // 1. ERROR BOUNDARY - Empêche le crash global si une section échoue
 class SectionErrorBoundary extends React.Component {
@@ -1231,8 +1230,7 @@ const Home = () => {
         </div>
       </section>
 
-      {/* Footer centralisé */}
-      <Footer />
+      {/* Footer centralisé (rendu depuis App.jsx) */}
 
     </div>
   );
