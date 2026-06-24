@@ -61,12 +61,13 @@ const CulturePage = () => {
     return () => clearInterval(interval);
   }, []);
 
-  // Fetch cultural events from backend
+  // Fetch publications with category 'Culture' from backend (includes events and articles)
   useEffect(() => {
     const fetchCultureData = async () => {
       try {
         setLoading(true);
-        const res = await api.get('/publications?type=evenement&category=Culture');
+        const res = await api.get('/publications?category=Culture&status=published');
+        console.log('Culture publications API response:', res.data);
         if (res.data?.success && Array.isArray(res.data.data)) {
           setEvents(res.data.data);
         } else {
