@@ -65,7 +65,8 @@ export default App;
 
 function FooterConditional() {
   const location = useLocation();
-  // hide footer for admin area and its subroutes
-  if (location.pathname.startsWith('/admin')) return null;
+  // hide footer for admin area and "espace citoyen" pages and their subroutes
+  const hideFooterRoutes = ['/admin', '/compte', '/user-login'];
+  if (hideFooterRoutes.some((r) => location.pathname.startsWith(r))) return null;
   return <Footer />;
 }
