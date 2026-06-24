@@ -1,118 +1,189 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useMemo } from 'react';
 import { Link } from 'react-router-dom';
 import api from '../api';
 import './Footer.css';
 
-const Footer = () => {
-  const [footer, setFooter] = useState(null);
+// Configuration par défaut extraite pour plus de clarté
+const DEFAULT_FOOTER_DATA = {
+  brandDescription: 'Portail citoyen officiel de la commune de Dembéni, Mayotte. Simplifiez vos démarches administratives en ligne, en toute sécurité.',
+  socialLinks: [
+    { icon: 'fab fa-facebook-f', url: '#', title: 'Facebook' },
+    { icon: 'fab fa-twitter', url: '#', title: 'Twitter' },
+    { icon: 'fab fa-instagram', url: '#', title: 'Instagram' },
+  ],
+  navigationLinks: [
+    { text: 'Accueil', url: '/' },
+    { text: 'Démarches', url: '/demarches' },
+    { text: 'Collecte', url: '/collecte' },
+    { text: 'Service public', url: '/service-public' },
+    { text: 'Contact', url: '/contact' },
+  ],
+  servicesLinks: [
+    { text: 'État civil', url: '/demarches' },
+    { text: 'Documents officiels', url: '/demarches' },
+    { text: 'Urbanisme', url: '/demarches' },
+    { text: 'Crèche', url: '/inscription' },
+    { text: 'Encombrants', url: '/collecte' },
+  ],
+  contact: {
+    address: 'Mairie de Dembéni, Mayotte 97680',
+    phone: '+262 269 XX XX XX',
+    email: 'dembenimairie@gmail.com',
+    openingHours: 'Lun–Ven · 8h00 – 16h30',
+  },
+  copyrightText: '© 2026 Mairie de Dembéni — Tous droits réservés',
+  legalLinks: [
+    { text: 'Mentions légales', url: '#' },
+    { text: 'Confidentialité', url: '#' },
+    { text: 'Accessibilité', url: '#' },
+  ],
+};
 
-  useEffect(() => {
-    api.get('/content/footer')
-      .then(res => setFooter(res.data))
-      .catch(() => setFooter(null));
-  }, []);
+// Fonction utilitaire pour fusionner les données API avec les valeurs par défaut
+const mergeFooterData = (apiData) => {
+  if (!apiData) return DEFAULT_FOOTER_DATA;
 
-  const footerData = {
-    brandDescription: footer?.brandDescription || 'Portail citoyen officiel de la commune de Dembéni, Mayotte. Simplifiez vos démarches administratives en ligne, en toute sécurité.',
-    socialLinks: (footer?.socialLinks && footer.socialLinks.length > 0) ? footer.socialLinks : [
-      { icon: 'fab fa-facebook-f', url: '#', title: 'Facebook' },
-      { icon: 'fab fa-twitter', url: '#', title: 'Twitter' },
-      { icon: 'fab fa-instagram', url: '#', title: 'Instagram' }
-    ],
-    navLinks: (footer?.navigationLinks && footer.navigationLinks.length > 0) ? footer.navigationLinks :
-              (footer?.navLinks && footer.navLinks.length > 0) ? footer.navLinks : [
-      { text: 'Accueil', url: '/' },
-      { text: 'Démarches', url: '/demarches' },
-      { text: 'Collecte', url: '/collecte' },
-      { text: 'Service public', url: '/service-public' },
-      { text: 'Contact', url: '/contact' }
-    ],
-    serviceLinks: (footer?.servicesLinks && footer.servicesLinks.length > 0) ? footer.servicesLinks :
-                  (footer?.serviceLinks && footer.serviceLinks.length > 0) ? footer.serviceLinks : [
-      { text: 'État civil', url: '/demarches' },
-      { text: 'Documents officiels', url: '/demarches' },
-      { text: 'Urbanisme', url: '/demarches' },
-      { text: 'Crèche', url: '/inscription' },
-      { text: 'Encombrants', url: '/collecte' }
-    ],
+  return {
+    brandDescription: apiData.brandDescription || DEFAULT_FOOTER_DATA.brandDescription,
+    socialLinks: apiData.socialLinks?.length ? apiData.socialLinks : DEFAULT_FOOTER_DATA.socialLinks,
+    navigationLinks: apiData.navigationLinks?.length ? apiData.navigationLinks : DEFAULT_FOOTER_DATA.navigationLinks,
+    servicesLinks: apiData.servicesLinks?.length ? apiData.servicesLinks : DEFAULT_FOOTER_DATA.servicesLinks,
     contact: {
-      address: footer?.address || 'Mairie de Dembéni, Mayotte 97680',
-      phone: footer?.phone || '+262 269 XX XX XX',
-      email: footer?.email || 'dembenimairie@gmail.com',
-      hours: footer?.openingHours || 'Lun–Ven · 8h00 – 16h30'
+      address: apiData.address || DEFAULT_FOOTER_DATA.contact.address,
+      phone: apiData.phone || DEFAULT_FOOTER_DATA.contact.phone,
+      email: apiData.email || DEFAULT_FOOTER_DATA.contact.email,
+      openingHours: apiData.openingHours || DEFAULT_FOOTER_DATA.contact.openingHours,
     },
-    copyrightText: footer?.copyrightText || '© 2026 Mairie de Dembéni — Tous droits réservés',
-    bottomLinks: (footer?.legalLinks && footer.legalLinks.length > 0) ? footer.legalLinks :
-                 (footer?.bottomLinks && footer.bottomLinks.length > 0) ? footer.bottomLinks : [
-      { text: 'Mentions légales', url: '#' },
-      { text: 'Confidentialité', url: '#' },
-      { text: 'Accessibilité', url: '#' }
-    ]
+    copyrightText: apiData.copyrightText || DEFAULT_FOOTER_DATA.copyrightText,
+    legalLinks: apiData.legalLinks?.length ? apiData.legalLinks : DEFAULT_FOOTER_DATA.legalLinks,
   };
+};
+
+// Sous-composants pour améliorer la lisibilité et la réutilisabilité
+const FooterLogo = () => (
+  <Link to="/" className="footer-logo" aria-label="Retour à l'accueil">
+    <div className="logo-icon" aria-hidden="true">D</div>
+    <span className="logo-name">DEMBÉNI<em>.</em></span>
+  </Link>
+);
+
+const SocialLinks = ({ links }) => (
+  <div className="footer-socials" role="list" aria-label="Réseaux sociaux">
+    {links.map((link, index) => (
+      <a
+        key={`social-${index}`}
+        href={link.url}
+        title={link.title}
+        aria-label={link.title}
+        target="_blank"
+        rel="noopener noreferrer"
+      >
+        <i className={link.icon} aria-hidden="true" />
+      </a>
+    ))}
+  </div>
+);
+
+const FooterNavColumn = ({ title, links }) => (
+  <div className="footer-col">
+    <h4>{title}</h4>
+    <ul role="list">
+      {links.map((link, index) => (
+        <li key={`nav-${index}`}>
+          <Link to={link.url}>{link.text}</Link>
+        </li>
+      ))}
+    </ul>
+  </div>
+);
+
+const ContactInfo = ({ contact }) => {
+  const contactItems = [
+    { icon: 'fas fa-map-marker-alt', text: contact.address, label: 'Adresse' },
+    { icon: 'fas fa-phone', text: contact.phone, label: 'Téléphone' },
+    { icon: 'fas fa-envelope', text: contact.email, label: 'Email' },
+    { icon: 'far fa-clock', text: contact.openingHours, label: 'Horaires d\'ouverture' },
+  ];
 
   return (
-    <footer className="footer">
+    <div className="footer-col">
+      <h4>Contact</h4>
+      <div role="list" aria-label="Informations de contact">
+        {contactItems.map((item, index) => (
+          <div key={`contact-${index}`} className="footer-contact-item">
+            <i className={item.icon} aria-hidden="true" />
+            <span aria-label={item.label}>{item.text}</span>
+          </div>
+        ))}
+      </div>
+    </div>
+  );
+};
+
+const FooterBottom = ({ copyrightText, legalLinks }) => (
+  <div className="footer-bottom">
+    <p>{copyrightText}</p>
+    <nav className="footer-bottom-links" aria-label="Liens légaux">
+      {legalLinks.map((link, index) => (
+        <a key={`legal-${index}`} href={link.url}>
+          {link.text}
+        </a>
+      ))}
+    </nav>
+  </div>
+);
+
+const Footer = () => {
+  const [footerData, setFooterData] = useState(DEFAULT_FOOTER_DATA);
+  const [isLoading, setIsLoading] = useState(true);
+
+  useEffect(() => {
+    const fetchFooterData = async () => {
+      try {
+        const response = await api.get('/content/footer');
+        setFooterData(mergeFooterData(response.data));
+      } catch (error) {
+        console.warn('Erreur lors du chargement des données du footer:', error);
+        // Garde les données par défaut en cas d'erreur
+      } finally {
+        setIsLoading(false);
+      }
+    };
+
+    fetchFooterData();
+  }, []);
+
+  // Mémorisation pour éviter des recalculs inutiles
+  const memoizedFooterData = useMemo(() => footerData, [footerData]);
+
+  if (isLoading) {
+    return (
+      <footer className="footer footer--loading" aria-label="Pied de page - Chargement en cours">
+        <div className="footer-loading" role="status">
+          <span className="sr-only">Chargement du pied de page...</span>
+        </div>
+      </footer>
+    );
+  }
+
+  return (
+    <footer className="footer" role="contentinfo">
       <div className="footer-top h-container">
         <div className="footer-brand">
-          <Link to="/" className="footer-logo">
-            <div className="logo-icon">D</div>
-            <span className="logo-name">DEMBÉNI<em>.</em></span>
-          </Link>
-          <p className="footer-desc">{footerData.brandDescription}</p>
-          <div className="footer-socials">
-            {footerData.socialLinks.map((link, i) => (
-              <a key={i} href={link.url} title={link.title} aria-label={link.title}><i className={link.icon}></i></a>
-            ))}
-          </div>
+          <FooterLogo />
+          <p className="footer-desc">{memoizedFooterData.brandDescription}</p>
+          <SocialLinks links={memoizedFooterData.socialLinks} />
         </div>
 
-        <div className="footer-col">
-          <h4>Navigation</h4>
-          <ul>
-            {footerData.navLinks.map((link, i) => (
-              <li key={i}><Link to={link.url}>{link.text}</Link></li>
-            ))}
-          </ul>
-        </div>
-
-        <div className="footer-col">
-          <h4>Services</h4>
-          <ul>
-            {footerData.serviceLinks.map((link, i) => (
-              <li key={i}><Link to={link.url}>{link.text}</Link></li>
-            ))}
-          </ul>
-        </div>
-
-        <div className="footer-col">
-          <h4>Contact</h4>
-          <div className="footer-contact-item">
-            <i className="fas fa-map-marker-alt" aria-hidden="true"></i>
-            <span>{footerData.contact.address}</span>
-          </div>
-          <div className="footer-contact-item">
-            <i className="fas fa-phone" aria-hidden="true"></i>
-            <span>{footerData.contact.phone}</span>
-          </div>
-          <div className="footer-contact-item">
-            <i className="fas fa-envelope" aria-hidden="true"></i>
-            <span>{footerData.contact.email}</span>
-          </div>
-          <div className="footer-contact-item">
-            <i className="far fa-clock" aria-hidden="true"></i>
-            <span>{footerData.contact.hours}</span>
-          </div>
-        </div>
+        <FooterNavColumn title="Navigation" links={memoizedFooterData.navigationLinks} />
+        <FooterNavColumn title="Services" links={memoizedFooterData.servicesLinks} />
+        <ContactInfo contact={memoizedFooterData.contact} />
       </div>
 
-      <div className="footer-bottom">
-        <p>{footerData.copyrightText}</p>
-        <div className="footer-bottom-links">
-          {footerData.bottomLinks.map((link, i) => (
-            <a key={i} href={link.url}>{link.text}</a>
-          ))}
-        </div>
-      </div>
+      <FooterBottom 
+        copyrightText={memoizedFooterData.copyrightText} 
+        legalLinks={memoizedFooterData.legalLinks} 
+      />
     </footer>
   );
 };
