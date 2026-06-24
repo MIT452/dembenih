@@ -21,6 +21,8 @@
 
 .logo-name{ font-weight:900; font-size:1.2rem; letter-spacing:0.04em; }
 
+.footer-logo-img{ width:56px; height:56px; border-radius:10px; object-fit:cover; box-shadow: 0 6px 18px rgba(0,0,0,0.18); }
+
 .footer-desc{ color: var(--s-400); margin:12px 0 18px; max-width:360px; line-height:1.6; }
 
 .footer-socials a{ color:var(--s-400); margin-right:12px; font-size:1.05rem; transition: color .2s ease; }

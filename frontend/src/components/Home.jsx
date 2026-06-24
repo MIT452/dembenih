@@ -9,6 +9,7 @@ import {
   Landmark, MoreHorizontal, GraduationCap, Hammer, MapPin
 } from 'lucide-react';
 import { Link } from 'react-router-dom';
+import Footer from './Footer';
 
 // 1. ERROR BOUNDARY - Empêche le crash global si une section échoue
 class SectionErrorBoundary extends React.Component {
@@ -1230,42 +1231,8 @@ const Home = () => {
         </div>
       </section>
 
-      {/* FOOTER */}
-      <footer className="main-footer" style={{ background: '#0b1528', color: 'white', padding: '48px 0 24px 0' }}>
-        <div className="h-container">
-          <div className="footer-grid" style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(200px, 1fr))', gap: '32px', textAlign: 'left', marginBottom: '32px' }}>
-            <div className="footer-brand">
-              <h2 className="footer-logo" style={{ fontSize: '1.25rem', fontWeight: 900, color: '#10b981', margin: '0 0 12px 0' }}>DEMBÉNI MAIRIE</h2>
-              <p style={{ fontSize: '0.78rem', color: 'rgba(255,255,255,0.6)', lineHeight: 1.5, margin: 0 }}>Site portail officiel de la commune de Dembéni, Mayotte. Accès aux démarches 24h/24.</p>
-            </div>
-            <div className="footer-links-group">
-              <h4 style={{ fontSize: '0.85rem', fontWeight: 800, color: 'white', textTransform: 'uppercase', marginBottom: '12px' }}>Mairie</h4>
-              <ul style={{ listStyle: 'none', padding: 0, margin: 0, display: 'flex', flexDirection: 'column', gap: '8px' }}>
-                <li><Link to="/demarches" style={{ color: 'rgba(255,255,255,0.6)', fontSize: '0.8rem', textDecoration: 'none' }}>Démarches civiles</Link></li>
-                <li><Link to="/services" style={{ color: 'rgba(255,255,255,0.6)', fontSize: '0.8rem', textDecoration: 'none' }}>Pôle Santé</Link></li>
-                <li><Link to="/contact" style={{ color: 'rgba(255,255,255,0.6)', fontSize: '0.8rem', textDecoration: 'none' }}>Contact & Horaires</Link></li>
-              </ul>
-            </div>
-            <div className="footer-links-group">
-              <h4 style={{ fontSize: '0.85rem', fontWeight: 800, color: 'white', textTransform: 'uppercase', marginBottom: '12px' }}>Découvrir</h4>
-              <ul style={{ listStyle: 'none', padding: 0, margin: 0, display: 'flex', flexDirection: 'column', gap: '8px' }}>
-                <li><Link to="/actualites" style={{ color: 'rgba(255,255,255,0.6)', fontSize: '0.8rem', textDecoration: 'none' }}>Dernières infos</Link></li>
-                <li><Link to="/demarches" style={{ color: 'rgba(255,255,255,0.6)', fontSize: '0.8rem', textDecoration: 'none' }}>Espace Citoyen</Link></li>
-              </ul>
-            </div>
-            <div className="footer-links-group">
-              <h4 style={{ fontSize: '0.85rem', fontWeight: 800, color: 'white', textTransform: 'uppercase', marginBottom: '12px' }}>Hôtel de Ville</h4>
-              <p style={{ fontSize: '0.78rem', color: 'rgba(255,255,255,0.6)', margin: '0 0 6px 0' }}>1 Rue de la Mairie, 97660 Dembéni</p>
-              <p style={{ fontSize: '0.78rem', color: 'rgba(255,255,255,0.6)', margin: 0 }}>Standard : 02 69 61 11 00</p>
-            </div>
-          </div>
-          
-          <div className="footer-bottom" style={{ borderTop: '1px solid rgba(255,255,255,0.08)', paddingTop: '20px', display: 'flex', justifyContent: 'space-between', flexWrap: 'wrap', gap: '10px' }}>
-            <p style={{ fontSize: '0.72rem', color: 'rgba(255,255,255,0.4)', margin: 0 }}>&copy; 2026 Ville de Dembéni. Tous droits réservés.</p>
-            <p style={{ fontSize: '0.72rem', color: 'rgba(255,255,255,0.4)', margin: 0 }}>Plateforme de Smart City • République Française</p>
-          </div>
-        </div>
-      </footer>
+      {/* Footer centralisé */}
+      <Footer />
 
     </div>
   );
