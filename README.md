@@ -1,98 +1,246 @@
-# 🇰🇲 Portail Citoyen - Mairie de Dembéni
+# Portail Citoyen de la Mairie de Dembéni
 
-Une plateforme numérique moderne et immersive développée pour la commune de **Dembéni (Mayotte)**. Ce projet vise à digitaliser les services municipaux et à renforcer le lien entre l'administration et les citoyens.
+## Présentation
 
----
+Le Portail Citoyen de la Mairie de Dembéni est une plateforme web moderne conçue pour accompagner la transformation numérique des services municipaux. Elle permet de centraliser l'information publique, de faciliter les démarches administratives et d'améliorer la communication entre la commune et les citoyens.
 
-## 🚀 Fonctionnalités Clés
-
-### 🏛️ Espace Administration (CMS)
-- **Gestion du Contenu** : Publication d'actualités, d'événements culturels et de projets urbains.
-- **Gestion des Services** : Mise à jour dynamique des services publics offerts.
-- **Messagerie Centralisée** : Consultation et réponse aux messages envoyés par les citoyens avec support des pièces jointes (photos).
-- **Contrôle d'Accès** : Sécurité renforcée avec rôles administrateurs et authentification JWT.
-
-### 👥 Espace Citoyen
-- **Tableau de Bord Personnel** : Suivi des demandes administratives en temps réel.
-- **Messagerie Directe** : Envoi de messages sécurisés au secrétariat avec possibilité d'ajouter des photos.
-- **Identité Numérique** : Gestion du profil et des informations de contact.
-
-### 🎨 Vitrine Communale
-- **Culture & Patrimoine** : Page immersive présentant les sites historiques (Mosquée, Usine Sucrière) et l'agenda culturel dynamique.
-- **Services de Santé** : Informations complètes sur le CCAS et les centres de soins de proximité.
-- **Design Moderne** : Interface responsive, fluide et animée (Framer Motion).
+Le projet repose sur une architecture web complète comprenant un espace public, un espace citoyen sécurisé et une interface d'administration destinée à la gestion des contenus et des services municipaux.
 
 ---
 
-## 🛠️ Stack Technique
+## Fonctionnalités
+
+### Espace Administration
+
+L'interface d'administration permet aux agents municipaux de gérer l'ensemble des contenus et services proposés sur la plateforme.
+
+#### Gestion des contenus
+
+* Publication et mise à jour des actualités communales.
+* Gestion des événements culturels et institutionnels.
+* Mise en avant des projets municipaux.
+
+#### Gestion des services municipaux
+
+* Création et modification des informations relatives aux services publics.
+* Mise à jour dynamique des contenus accessibles aux citoyens.
+
+#### Gestion des échanges citoyens
+
+* Consultation des messages reçus.
+* Réponse aux demandes des administrés.
+* Gestion des pièces jointes transmises par les utilisateurs.
+
+#### Sécurité et contrôle d'accès
+
+* Authentification sécurisée par JWT.
+* Gestion des rôles administrateurs.
+* Protection des ressources sensibles.
+
+---
+
+### Espace Citoyen
+
+L'espace citoyen offre aux habitants un accès simplifié aux services numériques de la commune.
+
+#### Tableau de bord personnel
+
+* Suivi des demandes administratives.
+* Consultation des échanges avec l'administration.
+* Accès aux informations personnelles.
+
+#### Messagerie sécurisée
+
+* Communication directe avec les services municipaux.
+* Envoi de messages accompagnés de pièces jointes.
+
+#### Gestion du profil
+
+* Mise à jour des coordonnées personnelles.
+* Gestion des informations de contact.
+
+---
+
+### Portail Public
+
+Le portail public constitue la vitrine numérique de la commune.
+
+#### Informations communales
+
+* Présentation de la commune et de son administration.
+* Diffusion des actualités et annonces officielles.
+
+#### Culture et patrimoine
+
+* Valorisation des sites historiques et culturels.
+* Présentation de l'agenda culturel communal.
+
+#### Services à la population
+
+* Informations sur les services municipaux.
+* Présentation des structures d'accompagnement social et sanitaire.
+
+#### Expérience utilisateur
+
+* Interface responsive adaptée aux ordinateurs, tablettes et smartphones.
+* Navigation fluide et intuitive.
+* Animations et interactions modernes.
+
+---
+
+## Technologies Utilisées
 
 ### Frontend
-- **Framework** : React 18 (Vite)
-- **Style & Animation** : CSS moderne, Framer Motion
-- **Icônes** : Lucide React
-- **Gestion d'État & API** : Context API, Axios
+
+| Technologie   | Description                                      |
+| ------------- | ------------------------------------------------ |
+| React 18      | Développement de l'interface utilisateur         |
+| Vite          | Outil de build et environnement de développement |
+| Framer Motion | Animations et transitions                        |
+| Lucide React  | Bibliothèque d'icônes                            |
+| Axios         | Communication avec l'API                         |
+| Context API   | Gestion de l'état global                         |
 
 ### Backend
-- **Serveur** : Node.js & Express
-- **Base de Données** : MongoDB Atlas (Mongoose ODM)
-- **Authentification** : JWT (JSON Web Tokens), Bcrypt.js
-- **Gestion des Fichiers** : Multer (Upload de photos)
-- **Emails** : Nodemailer (Notifications SMTP)
+
+| Technologie   | Description                          |
+| ------------- | ------------------------------------ |
+| Node.js       | Environnement d'exécution JavaScript |
+| Express.js    | Framework backend                    |
+| MongoDB Atlas | Base de données NoSQL                |
+| Mongoose      | Modélisation des données             |
+| JWT           | Authentification sécurisée           |
+| Bcrypt.js     | Hachage des mots de passe            |
+| Multer        | Gestion des fichiers uploadés        |
+| Nodemailer    | Envoi d'e-mails et notifications     |
 
 ---
 
-## ⚙️ Installation & Configuration
+## Installation
 
-### 1. Cloner le projet
+### Clonage du dépôt
+
 ```bash
-git clone <url-du-repo>
+git clone <url-du-repository>
 cd dembeni
 ```
 
-### 2. Configuration Backend
-Allez dans le dossier `backend` et créez un fichier `.env` :
-```env
-PORT=4000
-MONGO_URI=mongodb+srv://<user>:<password>@cluster.mongodb.net/dembeniV2
-JWT_SECRET=votre_secret_jwt
-SMTP_USER=votre_email@gmail.com
-SMTP_PASS=votre_mot_de_passe_d_application
-```
-Installez les dépendances et lancez le serveur :
+---
+
+## Configuration du Backend
+
+Accéder au dossier backend :
+
 ```bash
-npm install
-npm run dev
+cd backend
 ```
 
-### 3. Configuration Frontend
-Allez dans le dossier `frontend` :
+Créer un fichier `.env` :
+
+```env
+PORT=4000
+
+MONGO_URI=mongodb+srv://<username>:<password>@cluster.mongodb.net/dembeni
+
+JWT_SECRET=your_jwt_secret
+
+SMTP_USER=your_email@example.com
+SMTP_PASS=your_smtp_password
+```
+
+Installer les dépendances :
+
 ```bash
 npm install
+```
+
+Lancer le serveur :
+
+```bash
 npm run dev
 ```
 
 ---
 
-## 📁 Structure du Projet
+## Configuration du Frontend
+
+Accéder au dossier frontend :
+
+```bash
+cd frontend
+```
+
+Installer les dépendances :
+
+```bash
+npm install
+```
+
+Lancer l'application :
+
+```bash
+npm run dev
+```
+
+---
+
+## Structure du Projet
 
 ```text
 dembeni/
-├── backend/            # API Node.js/Express
+│
+├── backend/
 │   ├── src/
-│   │   ├── controllers/# Logique métier
-│   │   ├── models/     # Modèles Mongoose
-│   │   ├── routes/     # Points d'entrée API
-│   │   └── middleware/ # Auth & Upload
-│   └── uploads/        # Stockage des images
-├── frontend/           # Application React
+│   │   ├── controllers/
+│   │   ├── models/
+│   │   ├── routes/
+│   │   ├── middleware/
+│   │   └── services/
+│   ├── uploads/
+│   └── package.json
+│
+├── frontend/
 │   ├── src/
-│   │   ├── components/ # Composants UI (Dashboard, Pages)
-│   │   ├── context/    # Gestion de l'Auth
-│   │   └── App.jsx     # Routage principal
+│   │   ├── components/
+│   │   ├── pages/
+│   │   ├── context/
+│   │   ├── services/
+│   │   └── App.jsx
+│   └── package.json
+│
 └── README.md
 ```
 
 ---
 
-## 👨‍💻 Auteur
-Développé pour la modernisation des services publics de la Mairie de Dembéni.
+## Sécurité
+
+Le projet intègre plusieurs mécanismes de sécurité :
+
+* Authentification basée sur JWT.
+* Hachage sécurisé des mots de passe avec Bcrypt.
+* Validation des données côté serveur.
+* Gestion des rôles et des autorisations.
+* Protection des routes privées.
+
+---
+
+## Déploiement
+
+L'application peut être déployée sur différentes plateformes :
+
+* Frontend : GitHub Pages, Netlify ou Vercel.
+* Backend : Render, Railway ou VPS.
+* Base de données : MongoDB Atlas.
+
+---
+
+## Objectif du Projet
+
+Ce projet s'inscrit dans une démarche de modernisation des services publics locaux. Il vise à renforcer la transparence administrative, améliorer l'accès à l'information et simplifier les interactions entre la municipalité et les citoyens grâce aux technologies numériques.
+
+---
+
+## Auteur
+
+Projet développé dans le cadre de la modernisation numérique de la Mairie de Dembéni.
