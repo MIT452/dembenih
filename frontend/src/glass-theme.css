@@ -1,0 +1,334 @@
+/* ============================================================
+   DEMBENI COMMUNE PORTAL — GLASS MODERN LIGHT (v5.0 OVERRIDE)
+   Surcharge globale : transforme tout le portail en design
+   "glassmorphism" clair et moderne, en conservant la palette
+   vert forêt / turquoise du projet.
+   Ce fichier doit être importé APRES index.css.
+   ============================================================ */
+
+:root {
+  /* Verre — tokens réutilisant la palette existante */
+  --glass-bg:            rgba(255, 255, 255, 0.55);
+  --glass-bg-strong:     rgba(255, 255, 255, 0.72);
+  --glass-bg-soft:       rgba(255, 255, 255, 0.38);
+  --glass-border:        rgba(255, 255, 255, 0.6);
+  --glass-border-tint:   rgba(20, 184, 166, 0.22);
+  --glass-blur:          18px;
+  --glass-blur-lg:       28px;
+  --glass-shadow:        0 8px 32px rgba(13, 74, 62, 0.08);
+  --glass-shadow-hover:  0 20px 48px rgba(13, 74, 62, 0.14);
+  --glass-radius:        22px;
+
+  /* Fond de page clair, teinté vert/turquoise très léger */
+  --page-bg:
+    radial-gradient(1200px 600px at 8% -10%, rgba(34, 211, 238, 0.10), transparent 60%),
+    radial-gradient(1000px 700px at 100% 0%, rgba(34, 197, 94, 0.10), transparent 55%),
+    radial-gradient(900px 900px at 50% 100%, rgba(14, 165, 233, 0.07), transparent 60%),
+    linear-gradient(180deg, #f4faf8 0%, #eef6f4 100%);
+}
+
+/* ──────────────────────────────────────────────────────────
+   FOND GLOBAL
+   ────────────────────────────────────────────────────────── */
+html, body {
+  background: var(--page-bg) fixed !important;
+  background-color: #f2f8f6 !important;
+}
+
+/* Neutralise les anciens fonds pleins/sombres des sections génériques */
+section, .section-container, .h-container {
+  background-color: transparent;
+}
+
+/* ──────────────────────────────────────────────────────────
+   NAVBAR — VERRE CLAIR (au lieu du vert plein/sombre)
+   ────────────────────────────────────────────────────────── */
+.navbar-header-premium,
+.navbar-header-premium.scrolled {
+  background: linear-gradient(135deg, rgba(255,255,255,0.65) 0%, rgba(240,253,250,0.55) 100%) !important;
+  backdrop-filter: blur(var(--glass-blur-lg)) saturate(160%) !important;
+  -webkit-backdrop-filter: blur(var(--glass-blur-lg)) saturate(160%) !important;
+  border-bottom: 1px solid var(--glass-border-tint) !important;
+  box-shadow: 0 8px 32px rgba(13, 74, 62, 0.08) !important;
+}
+
+.navbar-link-prem,
+.navbar-header-premium.scrolled .navbar-link-prem,
+.navbar-logo-text,
+.user-nav-name,
+.navbar-header-premium.scrolled .user-nav-name {
+  color: var(--primary) !important;
+}
+
+.navbar-link-prem { color: rgba(13, 74, 62, 0.75) !important; }
+.navbar-link-prem:hover,
+.navbar-header-premium.scrolled .navbar-link-prem:hover,
+.navbar-link-prem.active,
+.navbar-header-premium.scrolled .navbar-link-prem.active {
+  color: #0d9488 !important;
+}
+
+.navbar-link-prem::after {
+  background: linear-gradient(90deg, var(--accent), var(--primary-light)) !important;
+  box-shadow: 0 0 8px rgba(20, 184, 166, 0.5) !important;
+}
+
+.btn-nav-logout {
+  border: 1px solid rgba(13, 74, 62, 0.25) !important;
+  color: var(--primary) !important;
+  background: rgba(255,255,255,0.4) !important;
+}
+
+/* Menu mobile en verre clair */
+.mobile-menu-prem, .navbar-mobile-menu, [class*="mobile-menu" i] {
+  background: var(--glass-bg-strong) !important;
+  backdrop-filter: blur(var(--glass-blur-lg)) !important;
+  -webkit-backdrop-filter: blur(var(--glass-blur-lg)) !important;
+  border: 1px solid var(--glass-border) !important;
+}
+
+/* ──────────────────────────────────────────────────────────
+   HERO — halo lumineux + panneaux de verre
+   ────────────────────────────────────────────────────────── */
+.hero-overlay-gradient,
+[class*="hero-overlay" i],
+[class*="hero-gradient" i] {
+  background:
+    linear-gradient(180deg, rgba(6,33,27,0.55) 0%, rgba(6,33,27,0.75) 55%, rgba(6,33,27,0.92) 100%) !important;
+}
+
+.hero-text-block, .contact-hero-content-wrap, [class*="hero-content" i] {
+  background: rgba(255,255,255,0.08);
+  backdrop-filter: blur(6px);
+  border-radius: var(--radius-xl);
+}
+
+.btn-hero-pill-primary {
+  background: linear-gradient(135deg, var(--accent) 0%, var(--primary-light) 100%) !important;
+  border: 1px solid rgba(255,255,255,0.35) !important;
+  box-shadow: 0 10px 30px rgba(34, 197, 94, 0.35) !important;
+  backdrop-filter: blur(8px);
+}
+
+.btn-hero-pill-secondary {
+  background: rgba(255,255,255,0.12) !important;
+  backdrop-filter: blur(var(--glass-blur)) !important;
+  -webkit-backdrop-filter: blur(var(--glass-blur)) !important;
+  border: 1px solid rgba(255,255,255,0.4) !important;
+  color: #fff !important;
+}
+
+/* ──────────────────────────────────────────────────────────
+   CARTES / PANNEAUX GENERIQUES → VERRE
+   Couvre : *card*, *Card*, *panel*, *Panel*, *-box, *tile*
+   ────────────────────────────────────────────────────────── */
+[class*="card" i]:not(.card-icon-small):not([class*="icon"]),
+[class*="panel" i],
+[class*="tile" i],
+.floating-card,
+.expanded-card,
+.empty-state-card,
+.demande-tile-card-prem {
+  background: var(--glass-bg-strong) !important;
+  backdrop-filter: blur(var(--glass-blur)) saturate(150%) !important;
+  -webkit-backdrop-filter: blur(var(--glass-blur)) saturate(150%) !important;
+  border: 1px solid var(--glass-border) !important;
+  box-shadow: var(--glass-shadow) !important;
+  border-radius: var(--glass-radius) !important;
+  transition: transform 0.35s var(--ease), box-shadow 0.35s var(--ease) !important;
+}
+
+[class*="card" i]:hover:not(.card-full-image),
+[class*="panel" i]:hover,
+[class*="tile" i]:hover {
+  box-shadow: var(--glass-shadow-hover) !important;
+  transform: translateY(-4px);
+}
+
+/* Cartes à image plein cadre : on garde l'image nette, on verre-ise juste le cadre */
+.card-full-image, .event-card-premium, .expanded-card-image-wrap {
+  border-radius: var(--glass-radius) !important;
+  overflow: hidden;
+  border: 1px solid var(--glass-border) !important;
+}
+
+/* Badges / tags / pastilles → verre pilule */
+[class*="badge" i]:not(.admin-sidebar-badge),
+[class*="tag" i],
+.commune-section-badge,
+.faq-small-badge,
+.doc-format-badge {
+  background: rgba(20, 184, 166, 0.12) !important;
+  backdrop-filter: blur(6px);
+  border: 1px solid rgba(20, 184, 166, 0.28) !important;
+  color: var(--primary) !important;
+}
+
+/* ──────────────────────────────────────────────────────────
+   BOUTONS
+   ────────────────────────────────────────────────────────── */
+[class*="btn-primary" i],
+.btn-primary-gradient,
+.btn-navbar-register,
+.btn-auth-submit-gradient,
+.btn-waste-action,
+.btn-sante-primary,
+.blue-btn {
+  background: linear-gradient(135deg, var(--accent) 0%, var(--primary-light) 100%) !important;
+  border: 1px solid rgba(255,255,255,0.3) !important;
+  box-shadow: 0 10px 26px rgba(20, 184, 166, 0.28) !important;
+  color: #fff !important;
+}
+
+[class*="btn-secondary" i],
+.btn-secondary-border,
+.btn-waste-secondary,
+.btn-sante-secondary,
+.btn-learn-more-prem {
+  background: rgba(255,255,255,0.5) !important;
+  backdrop-filter: blur(var(--glass-blur)) !important;
+  -webkit-backdrop-filter: blur(var(--glass-blur)) !important;
+  border: 1.5px solid rgba(13, 74, 62, 0.3) !important;
+  color: var(--primary) !important;
+}
+
+[class*="btn" i]:hover {
+  transform: translateY(-2px);
+}
+
+/* ──────────────────────────────────────────────────────────
+   FORMULAIRES / CHAMPS → VERRE
+   ────────────────────────────────────────────────────────── */
+.auth-styled-input,
+.contact-form-glass-premium input,
+.contact-form-glass-premium textarea,
+.contact-form-glass-premium select,
+input[type="text"], input[type="email"], input[type="password"],
+input[type="tel"], input[type="date"], input[type="number"],
+textarea, select {
+  background: rgba(255,255,255,0.55) !important;
+  backdrop-filter: blur(10px) !important;
+  -webkit-backdrop-filter: blur(10px) !important;
+  border: 1px solid rgba(13, 74, 62, 0.18) !important;
+  border-radius: 14px !important;
+  color: var(--text-dark) !important;
+}
+
+input:focus, textarea:focus, select:focus {
+  outline: none !important;
+  border-color: var(--primary-light) !important;
+  box-shadow: 0 0 0 4px rgba(20, 184, 166, 0.15) !important;
+}
+
+.auth-portal-card-main, .contact-form-glass-premium, .contact-cards-container {
+  background: var(--glass-bg-strong) !important;
+  backdrop-filter: blur(var(--glass-blur-lg)) saturate(160%) !important;
+  -webkit-backdrop-filter: blur(var(--glass-blur-lg)) saturate(160%) !important;
+  border: 1px solid var(--glass-border) !important;
+  box-shadow: var(--glass-shadow) !important;
+}
+
+/* ──────────────────────────────────────────────────────────
+   MODALES / OVERLAYS
+   ────────────────────────────────────────────────────────── */
+[class*="modal-backdrop" i] {
+  background: rgba(6, 33, 27, 0.45) !important;
+  backdrop-filter: blur(6px) !important;
+  -webkit-backdrop-filter: blur(6px) !important;
+}
+
+[class*="modal" i]:not([class*="backdrop"]) {
+  background: rgba(255,255,255,0.85) !important;
+  backdrop-filter: blur(var(--glass-blur-lg)) saturate(160%) !important;
+  -webkit-backdrop-filter: blur(var(--glass-blur-lg)) saturate(160%) !important;
+  border: 1px solid var(--glass-border) !important;
+  box-shadow: var(--glass-shadow-hover) !important;
+  border-radius: var(--glass-radius) !important;
+}
+
+/* ──────────────────────────────────────────────────────────
+   ADMIN — SIDEBAR & DASHBOARD EN VERRE CLAIR
+   ────────────────────────────────────────────────────────── */
+.admin-sidebar {
+  background: linear-gradient(180deg, rgba(255,255,255,0.7) 0%, rgba(240,253,250,0.6) 100%) !important;
+  backdrop-filter: blur(var(--glass-blur-lg)) saturate(160%) !important;
+  -webkit-backdrop-filter: blur(var(--glass-blur-lg)) saturate(160%) !important;
+  border-right: 1px solid var(--glass-border-tint) !important;
+}
+
+.admin-sidebar-nav-item {
+  color: var(--primary) !important;
+}
+
+.admin-sidebar-nav-item.active {
+  background: linear-gradient(135deg, var(--accent) 0%, var(--primary-light) 100%) !important;
+  color: #fff !important;
+  box-shadow: 0 6px 18px rgba(20, 184, 166, 0.3) !important;
+}
+
+.admin-stat-card, .dashboard-stat-card {
+  background: var(--glass-bg-strong) !important;
+}
+
+.admin-table-container, .documents-manager-wrapper {
+  background: var(--glass-bg-strong) !important;
+  backdrop-filter: blur(var(--glass-blur)) !important;
+  -webkit-backdrop-filter: blur(var(--glass-blur)) !important;
+  border: 1px solid var(--glass-border) !important;
+  border-radius: var(--glass-radius) !important;
+}
+
+/* ──────────────────────────────────────────────────────────
+   FOOTER — verre profond (contraste conservé)
+   ────────────────────────────────────────────────────────── */
+.footer {
+  background: linear-gradient(160deg, rgba(6,33,27,0.92) 0%, rgba(13,74,62,0.88) 100%) !important;
+  backdrop-filter: blur(var(--glass-blur-lg)) !important;
+  -webkit-backdrop-filter: blur(var(--glass-blur-lg)) !important;
+  border-top: 1px solid rgba(255,255,255,0.08) !important;
+}
+
+.footer-bottom {
+  background: rgba(0,0,0,0.15) !important;
+  border-top: 1px solid rgba(255,255,255,0.08) !important;
+}
+
+/* ──────────────────────────────────────────────────────────
+   SECTION TITLES / TABLE / DIVERS
+   ────────────────────────────────────────────────────────── */
+.faq-section-title-premium, .events-section-header, .card-header-bar-premium {
+  background: transparent !important;
+}
+
+.waste-accordion-card, .accordion-sub-panel, .schedule-badge-row {
+  background: var(--glass-bg-strong) !important;
+  backdrop-filter: blur(var(--glass-blur)) !important;
+  -webkit-backdrop-filter: blur(var(--glass-blur)) !important;
+  border: 1px solid var(--glass-border) !important;
+}
+
+/* Scrollbar assortie au thème verre */
+::-webkit-scrollbar { width: 10px; height: 10px; }
+::-webkit-scrollbar-track { background: transparent; }
+::-webkit-scrollbar-thumb {
+  background: rgba(20, 184, 166, 0.35);
+  border-radius: 10px;
+  border: 2px solid transparent;
+  background-clip: padding-box;
+}
+::-webkit-scrollbar-thumb:hover { background: rgba(20, 184, 166, 0.55); }
+
+::selection {
+  background: rgba(34, 197, 94, 0.25);
+  color: var(--primary-dark);
+}
+
+/* ──────────────────────────────────────────────────────────
+   RESPONSIVE — un peu moins de flou sur mobile (perf)
+   ────────────────────────────────────────────────────────── */
+@media (max-width: 640px) {
+  :root {
+    --glass-blur: 12px;
+    --glass-blur-lg: 16px;
+  }
+}
